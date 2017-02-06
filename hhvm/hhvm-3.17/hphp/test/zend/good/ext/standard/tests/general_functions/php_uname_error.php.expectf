@@ -1,0 +1,24 @@
+*** Testing php_uname() - error test
+
+-- Testing php_uname() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+
+-- Testing php_uname() function with invalid mode --
+bool(true)
+
+-- Testing php_uname() function with invalid argument types --
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+===DONE===

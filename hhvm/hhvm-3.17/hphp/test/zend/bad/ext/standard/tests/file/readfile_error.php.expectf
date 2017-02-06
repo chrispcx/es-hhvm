@@ -1,0 +1,31 @@
+*** Test readfile(): error conditions ***
+-- Testing readfile() with unexpected no. of arguments --
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+-- Testing readfile() with invalid arguments --
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+-- Testing readfile() with non-existent file --
+
+Warning: %s
+bool(false)
+Done

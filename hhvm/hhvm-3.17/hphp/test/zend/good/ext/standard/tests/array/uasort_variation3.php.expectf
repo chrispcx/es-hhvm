@@ -1,0 +1,36 @@
+*** Testing uasort() : Sorting array with all possible keys ***
+bool(true)
+-- Sorted array after uasort() function call --
+array(14) {
+  ["multiline heredoc with 123
+and speci@! ch@r..
+check%r\x09%ralso"]=>
+  int(200)
+  [1]=>
+  int(100)
+  [""]=>
+  int(90)
+  ["simple"]=>
+  int(75)
+  ["a%r\x00%rb"]=>
+  int(45)
+  ["binary"]=>
+  int(30)
+  [0]=>
+  int(25)
+  [-2]=>
+  int(9)
+  [8]=>
+  int(8)
+  [10]=>
+  int(7)
+  [52]=>
+  int(6)
+  ["key"]=>
+  int(5)
+  ["two"]=>
+  int(4)
+  [" "]=>
+  int(0)
+}
+Done

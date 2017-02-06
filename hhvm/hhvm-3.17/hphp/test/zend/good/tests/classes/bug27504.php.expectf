@@ -1,0 +1,5 @@
+Called function foo:bar(1)
+
+Warning: %s
+
+Fatal error: %s

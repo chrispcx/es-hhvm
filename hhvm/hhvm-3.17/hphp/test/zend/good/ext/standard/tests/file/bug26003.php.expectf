@@ -1,0 +1,6 @@
+array(2) {
+  [0]=>
+  string(3) "abc"
+  [1]=>
+  string(3) "d%r\x00%re"
+}

@@ -1,0 +1,8 @@
+*** Test by calling method or function with incorrect numbers of arguments ***
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+===DONE===

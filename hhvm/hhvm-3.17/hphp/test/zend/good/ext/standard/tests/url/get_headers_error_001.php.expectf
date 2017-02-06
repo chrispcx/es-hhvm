@@ -1,0 +1,12 @@
+*** Testing get_headers() : error conditions ***
+
+-- Testing get_headers() function with Zero arguments --
+
+Warning: %s
+NULL
+
+-- Testing get_headers() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+Done

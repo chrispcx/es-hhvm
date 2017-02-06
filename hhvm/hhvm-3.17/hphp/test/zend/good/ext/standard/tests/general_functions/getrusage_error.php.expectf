@@ -1,0 +1,22 @@
+*** Testing getrusage() : error conditions ***
+
+-- Testing getrusage() function with more than expected no. of arguments --
+
+Warning: %s
+
+-- Testing getrusage() function with invalid argument - non-numeric STRING--
+
+Warning: %s
+
+-- Testing getrusage() function with invalid argument - ARRAY--
+
+Warning: %s
+
+-- Testing getrusage() function with invalid argument - OBJECT --
+
+Warning: %s
+
+-- Testing getrusage() function with invalid argument - RESOURCE --
+
+Warning: %s
+===DONE===

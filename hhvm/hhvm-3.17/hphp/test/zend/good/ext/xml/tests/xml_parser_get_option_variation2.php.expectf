@@ -1,0 +1,128 @@
+*** Testing xml_parser_get_option() : usage variations ***
+
+Arg value 12345 
+
+Warning: %s
+bool(false)
+
+Arg value -2345 
+
+Warning: %s
+bool(false)
+
+Arg value 10.5 
+
+Warning: %s
+bool(false)
+
+Arg value -10.5 
+
+Warning: %s
+bool(false)
+
+Arg value 101234567000 
+
+Warning: %s
+bool(false)
+
+Arg value 1.07654321E-9 
+
+Warning: %s
+bool(false)
+
+Arg value 0.5 
+
+Warning: %s
+bool(false)
+
+Arg value Array 
+
+Warning: %s
+NULL
+
+Arg value Array 
+
+Warning: %s
+NULL
+
+Arg value Array 
+
+Warning: %s
+NULL
+
+Arg value Array 
+
+Warning: %s
+NULL
+
+Arg value Array 
+
+Warning: %s
+NULL
+
+Arg value  
+
+Warning: %s
+bool(false)
+
+Arg value  
+
+Warning: %s
+bool(false)
+
+Arg value 1 
+int(1)
+
+Arg value  
+
+Warning: %s
+bool(false)
+
+Arg value 1 
+int(1)
+
+Arg value  
+
+Warning: %s
+bool(false)
+
+Arg value  
+
+Warning: %s
+NULL
+
+Arg value  
+
+Warning: %s
+NULL
+
+Arg value string 
+
+Warning: %s
+NULL
+
+Arg value string 
+
+Warning: %s
+NULL
+
+Arg value Some Ascii Data 
+
+Warning: %s
+NULL
+
+Arg value Resource id %s
+
+Warning: %s
+NULL
+
+Arg value  
+
+Warning: %s
+bool(false)
+
+Arg value  
+
+Warning: %s
+bool(false)
+Done

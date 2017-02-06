@@ -1,0 +1,22 @@
+--source include/master-slave.inc
+connection master;
+
+--disable_warnings
+drop table if exists test_json;
+--enable_warnings
+create table test_json(json document) engine=innodb;
+
+--source suite/json/include/json_func_common.inc
+
+--source suite/json/include/json_func_common_2_document.inc
+
+--source suite/json/include/fbson_output_format.inc
+
+--source suite/json/include/fbson_input_format.inc
+
+#
+# cleanup
+#
+drop table test_json;
+
+--source include/rpl_end.inc

@@ -1,0 +1,140 @@
+*** Testing implode() for basic opeartions ***
+string(4) "1, 2"
+array(2) {
+  [0]=>
+  int(1)
+  [1]=>
+  int(2)
+}
+string(8) "1.1, 2.2"
+array(2) {
+  [0]=>
+  float(1.1)
+  [1]=>
+  float(2.2)
+}
+
+Notice: %s
+
+Notice: %s
+string(12) "Array, Array"
+array(2) {
+  [0]=>
+  array(1) {
+    [0]=>
+    int(2)
+  }
+  [1]=>
+  array(1) {
+    [0]=>
+    int(1)
+  }
+}
+string(3) ", 1"
+array(2) {
+  [0]=>
+  bool(false)
+  [1]=>
+  bool(true)
+}
+string(0) ""
+array(0) {
+}
+string(42) "a, aaaa, b, bbbb, c, ccccccccccccccccccccc"
+array(6) {
+  [0]=>
+  string(1) "a"
+  [1]=>
+  string(4) "aaaa"
+  [2]=>
+  string(1) "b"
+  [3]=>
+  string(4) "bbbb"
+  [4]=>
+  string(1) "c"
+  [5]=>
+  string(21) "ccccccccccccccccccccc"
+}
+
+*** Testing implode() with variations of glue ***
+-- Iteration 1 --
+string(63) "2TRUE0TRUE-639TRUE1TRUEPHPTRUETRUETRUETRUE TRUEstring%r\x00%rwith%r\x00%r...%r\x00%r"
+-- Iteration 2 --
+string(36) "2101-639111PHP1111 1string%r\x00%rwith%r\x00%r...%r\x00%r"
+-- Iteration 3 --
+string(27) "20-6391PHP string%r\x00%rwith%r\x00%r...%r\x00%r"
+-- Iteration 4 --
+
+Notice: %s
+string(13) "key1Arraykey2"
+-- Iteration 5 --
+string(27) "20-6391PHP string%r\x00%rwith%r\x00%r...%r\x00%r"
+-- Iteration 6 --
+string(36) "2 0 -639 1 PHP      string%r\x00%rwith%r\x00%r...%r\x00%r"
+-- Iteration 7 --
+string(153) "2string%r\x00%rbetween0string%r\x00%rbetween-639string%r\x00%rbetween1string%r\x00%rbetweenPHPstring%r\x00%rbetweenstring%r\x00%rbetweenstring%r\x00%rbetweenstring%r\x00%rbetween string%r\x00%rbetweenstring%r\x00%rwith%r\x00%r...%r\x00%r"
+-- Iteration 8 --
+string(27) "20-6391PHP string%r\x00%rwith%r\x00%r...%r\x00%r"
+-- Iteration 9 --
+string(36) "2000-639010PHP0000 0string%r\x00%rwith%r\x00%r...%r\x00%r"
+-- Iteration 10 --
+string(45) "2\00\0-639\01\0PHP\0\0\0\0 \0string%r\x00%rwith%r\x00%r...%r\x00%r"
+
+*** Testing implode() on empty string ***
+
+Warning: %s
+NULL
+
+*** Testing implode() on sub-arrays ***
+
+Notice: %s
+
+Notice: %s
+string(27) "ArrayTESTArrayTESTPHPTEST50"
+
+Notice: %s
+string(19) "1Array2Array3Array4"
+
+Notice: %s
+
+Notice: %s
+string(18) "Array2Array2PHP250"
+
+*** Testing implode() on objects ***
+string(13) "Object,Object"
+array(2) {
+  [0]=>
+  &object(foo)#%d (0) {
+  }
+  [1]=>
+  &object(foo)#%d (0) {
+  }
+}
+
+*** Testing end() on resource type ***
+string(%d) "Resource id #%d::Resource id #%d"
+
+*** Testing error conditions ***
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+string(0) ""
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+Done

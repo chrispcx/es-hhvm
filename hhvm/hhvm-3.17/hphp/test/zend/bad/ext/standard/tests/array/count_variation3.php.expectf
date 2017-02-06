@@ -1,0 +1,10 @@
+*** Testing count() : usage variations ***
+
+-- $mode not set: --
+int(4)
+
+-- $mode = 1: --
+
+Warning: %s
+int(12)
+Done

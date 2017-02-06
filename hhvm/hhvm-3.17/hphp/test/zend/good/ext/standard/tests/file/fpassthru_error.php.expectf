@@ -1,0 +1,14 @@
+*** Test error conditions of fpassthru() function ***
+
+Warning: %s
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+*** Done ***

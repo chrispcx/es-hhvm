@@ -1,0 +1,12 @@
+*** Testing mb_strrchr() : error conditions ***
+
+-- Testing mb_strrchr() function with more than expected no. of arguments --
+
+Warning: %s
+bool(false)
+
+-- Testing mb_strrchr() function with less than expected no. of arguments --
+
+Warning: %s
+bool(false)
+===DONE===

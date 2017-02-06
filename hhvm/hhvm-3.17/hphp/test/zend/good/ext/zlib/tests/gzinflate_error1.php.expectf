@@ -1,0 +1,25 @@
+*** Testing gzinflate() : error conditions ***
+
+-- Testing gzcompress() function with Zero arguments --
+
+Warning: %s
+NULL
+
+-- Testing gzcompress() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+
+-- Testing with a buffer that is too small --
+
+Warning: %s
+bool(false)
+
+-- Testing with incorrect parameters --
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+===DONE===

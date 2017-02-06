@@ -1,0 +1,7 @@
+*** Testing session_encode() : variation ***
+bool(false)
+bool(true)
+
+Warning: %s
+bool(false)
+Done

@@ -1,0 +1,12 @@
+*** Testing file_exists() : error conditions ***
+
+-- Testing file_exists() function with Zero arguments --
+
+Warning: %s
+NULL
+
+-- Testing file_exists() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+Done

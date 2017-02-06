@@ -1,0 +1,9 @@
+Change from array to non iterable:
+int(1)
+
+Warning: %s
+
+Change from object to non iterable:
+int(1)
+
+Warning: %s

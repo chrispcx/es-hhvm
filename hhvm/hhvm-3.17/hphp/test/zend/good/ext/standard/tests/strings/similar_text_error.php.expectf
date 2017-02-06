@@ -1,0 +1,8 @@
+-- Testing similar_text() function with more than expected no. of arguments --
+
+Warning: %s
+
+-- Testing similar_text() function with less than expected no. of arguments --
+
+Warning: %s
+===DONE===

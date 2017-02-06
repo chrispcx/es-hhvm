@@ -1,0 +1,6 @@
+NULL
+int(3)
+
+Notice: %s
+NULL
+string(%s) "DateInterval::__construct(): Unknown or bad format (blah)"

@@ -1,0 +1,7 @@
+*** Testing posix_getppid() : error conditions ***
+
+-- Testing posix_getppid() function with one argument --
+
+Warning: %s
+NULL
+Done

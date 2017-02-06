@@ -1,0 +1,12 @@
+*** Testing usort() : error conditions ***
+
+-- Testing usort() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+
+-- Testing usort() function with less than expected no. of arguments --
+
+Warning: %s
+NULL
+===DONE===

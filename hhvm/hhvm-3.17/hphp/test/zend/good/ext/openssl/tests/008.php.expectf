@@ -1,0 +1,27 @@
+bool(true)
+bool(true)
+
+Warning: %s
+bool(false)
+bool(true)
+
+Warning: %s
+bool(false)
+---
+bool(true)
+bool(true)
+
+Warning: %s
+bool(false)
+bool(true)
+
+Warning: %s
+bool(false)
+---
+bool(true)
+---
+int(0)
+int(0)
+int(%d)
+int(0)
+int(%d)

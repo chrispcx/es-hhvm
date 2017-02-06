@@ -1,0 +1,29 @@
+*** Testing fileinode() with different notations of file names ***
+- Iteration 1 -
+int(%i)
+- Iteration 2 -
+
+Warning: %s
+bool(false)
+- Iteration 3 -
+int(%i)
+- Iteration 4 -
+int(%i)
+- Iteration 5 -
+
+Warning: %s
+bool(false)
+- Iteration 6 -
+
+Warning: %s
+bool(false)
+- Iteration 7 -
+
+Warning: %s
+NULL
+- Iteration 8 -
+
+Warning: %s
+NULL
+
+*** Done ***

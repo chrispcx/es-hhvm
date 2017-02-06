@@ -1,0 +1,12 @@
+*** Testing date_sunrise() : error conditions ***
+
+-- Testing date_sunrise() function with Zero arguments --
+
+Warning: %s
+bool(false)
+
+-- Testing date_sunrise() function with more than expected no. of arguments --
+
+Warning: %s
+bool(false)
+===DONE===

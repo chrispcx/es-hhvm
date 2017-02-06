@@ -1,0 +1,15 @@
+
+Warning: %s
+
+Warning: %s
+bool(false)
+
+Warning: %s
+string(66) "DateTimeZone::__construct(): Unknown or bad timezone (Etc/Unknown)"
+
+Warning: %s
+
+Warning: %s
+bool(false)
+
+Catchable fatal error: %s

@@ -1,0 +1,12 @@
+File "test_foreach2.php", line 14, characters 12-13:
+Invalid return type (Typing[4110])
+File "test_foreach2.php", line 12, characters 37-39:
+This is an int
+File "test_foreach2.php", line 12, characters 24-29:
+It is incompatible with a string
+File "builtins.hhi", line 20, characters 49-50:
+  via this generic Tv
+File "builtins.hhi", line 14, characters 55-56:
+  via this generic Tv
+File "builtins.hhi", line 9, characters 63-64:
+  via this generic Tv

@@ -1,0 +1,10 @@
+*** Testing dir() : open a non-existent directory ***
+-- opening previously removed directory --
+
+Warning: %s
+bool(false)
+-- opening non-existent directory --
+
+Warning: %s
+bool(false)
+Done

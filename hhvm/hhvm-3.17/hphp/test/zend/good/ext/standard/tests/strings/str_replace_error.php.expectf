@@ -1,0 +1,16 @@
+*** Testing str_replace error conditions ***
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+===DONE===

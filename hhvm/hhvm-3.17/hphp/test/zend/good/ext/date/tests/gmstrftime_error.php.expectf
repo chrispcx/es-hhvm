@@ -1,0 +1,12 @@
+*** Testing gmstrftime() : error conditions ***
+
+-- Testing gmstrftime() function with Zero arguments --
+
+Warning: %s
+bool(false)
+
+-- Testing gmstrftime() function with more than expected no. of arguments --
+
+Warning: %s
+bool(false)
+===DONE===

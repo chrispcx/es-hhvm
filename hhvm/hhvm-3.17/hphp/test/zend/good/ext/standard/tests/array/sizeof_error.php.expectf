@@ -1,0 +1,14 @@
+*** Testing sizeof() : error conditions ***
+-- Testing sizeof() with zero arguments --
+
+Warning: %s
+NULL
+-- Testing sizeof() function with more than two arguments under COUNT_NORMAL mode --
+
+Warning: %s
+NULL
+-- Testing sizeof() function with more than two arguments under COUNT_RECURSIVE mode --
+
+Warning: %s
+NULL
+Done

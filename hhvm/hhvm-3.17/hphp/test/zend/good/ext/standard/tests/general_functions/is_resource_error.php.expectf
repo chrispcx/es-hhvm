@@ -1,0 +1,12 @@
+*** Testing is_resource() : error conditions ***
+
+-- Testing is_resource() function with Zero arguments --
+
+Warning: %s
+bool(false)
+
+-- Testing is_resource() function with more than expected no. of arguments --
+
+Warning: %s
+bool(false)
+===DONE===

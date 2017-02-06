@@ -1,0 +1,98 @@
+*** Testing ord() & chr() basic operations ***
+
+*** Testing chr() usage variations ***
+-- Iteration 1 --
+string(1) "%r\x00%r"
+-- Iteration 2 --
+string(1) "%r\x00%r"
+-- Iteration 3 --
+string(1) "%r\x01%r"
+-- Iteration 4 --
+string(1) "%r\x00%r"
+-- Iteration 5 --
+string(1) "%r\x00%r"
+-- Iteration 6 --
+string(1) "%r\x00%r"
+-- Iteration 7 --
+string(1) "%r\x00%r"
+-- Iteration 8 --
+string(1) "+"
+-- Iteration 9 --
+string(1) "A"
+-- Iteration 10 --
+string(1) "%r\x00%r"
+-- Iteration 11 --
+string(1) "%r\x00%r"
+-- Iteration 12 --
+string(1) "%r\x00%r"
+-- Iteration 13 --
+string(1) "%r\xc8%r"
+-- Iteration 14 --
+string(1) "%r\x0c%r"
+-- Iteration 15 --
+string(1) "%r\xff%r"
+-- Iteration 16 --
+string(1) "%r\xeb%r"
+-- Iteration 17 --
+string(1) "%r\x00%r"
+-- Iteration 18 --
+string(1) "%r\x00%r"
+-- Iteration 19 --
+string(1) "%r\x00%r"
+
+*** Testing ord() usage variations ***
+-- Iteration 1 --
+int(116)
+-- Iteration 2 --
+int(102)
+-- Iteration 3 --
+int(49)
+-- Iteration 4 --
+int(0)
+-- Iteration 5 --
+int(0)
+-- Iteration 6 --
+int(32)
+-- Iteration 7 --
+int(97)
+-- Iteration 8 --
+int(50)
+-- Iteration 9 --
+int(51)
+-- Iteration 10 --
+int(0)
+-- Iteration 11 --
+int(92)
+-- Iteration 12 --
+int(48)
+-- Iteration 13 --
+int(45)
+-- Iteration 14 --
+int(49)
+-- Iteration 15 --
+int(45)
+-- Iteration 16 --
+int(49)
+-- Iteration 17 --
+int(97)
+-- Iteration 18 --
+int(97)
+-- Iteration 19 --
+int(97)
+
+*** Testing chr() error conditions ***
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+*** Testing ord() error conditions ***
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+Done

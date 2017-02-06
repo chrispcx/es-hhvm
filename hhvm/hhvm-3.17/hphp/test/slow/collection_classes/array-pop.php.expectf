@@ -1,0 +1,92 @@
+int(33)
+array(2) {
+  [0]=>
+  int(11)
+  [1]=>
+  int(22)
+}
+int(33)
+object(HH\Vector)#1 (2) {
+  [0]=>
+  int(11)
+  [1]=>
+  int(22)
+}
+int(33)
+object(HH\Map)#2 (2) {
+  ["a"]=>
+  int(11)
+  ["b"]=>
+  int(22)
+}
+int(33)
+object(HH\Set)#3 (2) {
+  int(11)
+  int(22)
+}
+
+Warning: array_pop() expects parameter 1 to be an array or mutable collection in %s on line 21
+NULL
+object(HH\ImmVector)#4 (3) {
+  [0]=>
+  int(11)
+  [1]=>
+  int(22)
+  [2]=>
+  int(33)
+}
+
+Warning: array_pop() expects parameter 1 to be an array or mutable collection in %s on line 21
+NULL
+object(HH\ImmMap)#5 (3) {
+  ["a"]=>
+  int(11)
+  ["b"]=>
+  int(22)
+  ["c"]=>
+  int(33)
+}
+
+Warning: array_pop() expects parameter 1 to be an array or mutable collection in %s on line 21
+NULL
+object(HH\ImmSet)#6 (3) {
+  int(11)
+  int(22)
+  int(33)
+}
+
+Warning: array_pop() expects parameter 1 to be an array or mutable collection in %s on line 21
+NULL
+object(HH\Pair)#7 (2) {
+  [0]=>
+  int(11)
+  [1]=>
+  int(22)
+}
+NULL
+array(0) {
+}
+NULL
+object(HH\Vector)#8 (0) {
+}
+NULL
+object(HH\Map)#9 (0) {
+}
+NULL
+object(HH\Set)#10 (0) {
+}
+
+Warning: array_pop() expects parameter 1 to be an array or mutable collection in %s on line 21
+NULL
+object(HH\ImmVector)#11 (0) {
+}
+
+Warning: array_pop() expects parameter 1 to be an array or mutable collection in %s on line 21
+NULL
+object(HH\ImmMap)#12 (0) {
+}
+
+Warning: array_pop() expects parameter 1 to be an array or mutable collection in %s on line 21
+NULL
+object(HH\ImmSet)#13 (0) {
+}

@@ -1,0 +1,18 @@
+*** Testing opendir() : usage variations ***
+
+-- Wildcard = '*' --
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+-- Wildcard = '?' --
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+===DONE===

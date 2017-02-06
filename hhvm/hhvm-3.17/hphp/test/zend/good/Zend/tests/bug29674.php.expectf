@@ -1,0 +1,9 @@
+===BASE===
+string(4) "Base"
+
+Notice: %s
+NULL
+===CHILD===
+string(4) "Base"
+
+Fatal error: %s

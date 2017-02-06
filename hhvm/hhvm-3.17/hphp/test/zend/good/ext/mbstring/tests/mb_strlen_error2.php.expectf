@@ -1,0 +1,5 @@
+*** Testing mb_strlen() : error ***
+
+Warning: %s
+bool(false)
+Done

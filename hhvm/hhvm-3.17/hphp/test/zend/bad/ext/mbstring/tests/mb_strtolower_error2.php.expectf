@@ -1,0 +1,5 @@
+*** Testing mb_strtolower() : error conditions***
+
+Warning: %s
+bool(false)
+===DONE===

@@ -1,0 +1,6 @@
+Derived::__construct()
+Test::__construct()
+TestPriv::__construct()
+DerivedPriv::__construct()
+
+Fatal error: %s

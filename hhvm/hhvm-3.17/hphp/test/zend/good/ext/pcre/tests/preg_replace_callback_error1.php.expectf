@@ -1,0 +1,28 @@
+*** Testing preg_replace_callback() : error conditions ***
+
+Arg value is abcdef
+
+Warning: %s
+NULL
+
+Arg value is /[a-zA-Z]
+
+Warning: %s
+NULL
+
+Arg value is [a-zA-Z]/
+
+Warning: %s
+NULL
+
+Arg value is /[a-zA-Z]/F
+
+Warning: %s
+NULL
+
+Arg value is Array
+string(9) "number 1."
+
+Arg value is /[a-zA-Z]/
+string(3) " 1."
+===Done===

@@ -1,0 +1,12 @@
+*** Testing quoted_printable_decode() : error conditions ***
+
+-- Testing quoted_printable_decode() function with no arguments --
+
+Warning: %s
+NULL
+
+-- Testing quoted_printable_decode() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+===DONE===

@@ -1,0 +1,4 @@
+before yield
+before yield in finally
+
+Fatal error: %s

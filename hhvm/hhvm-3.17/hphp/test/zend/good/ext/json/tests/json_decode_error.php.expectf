@@ -1,0 +1,12 @@
+*** Testing json_decode() : error conditions ***
+
+-- Testing json_decode() function with no arguments --
+
+Warning: %s
+NULL
+
+-- Testing json_decode() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+===Done===

@@ -1,0 +1,12 @@
+*** Testing ord() : error conditions ***
+
+-- Testing ord() function with no arguments --
+
+Warning: %s
+NULL
+
+-- Testing ord() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+===DONE===

@@ -1,0 +1,567 @@
+/*
+   +----------------------------------------------------------------------+
+   | HipHop for PHP                                                       |
+   +----------------------------------------------------------------------+
+   | Copyright (c) 2010-2016 Facebook, Inc. (http://www.facebook.com)     |
+   +----------------------------------------------------------------------+
+   | This source file is subject to version 3.01 of the PHP license,      |
+   | that is bundled with this package in the file LICENSE, and is        |
+   | available through the world-wide-web at the following url:           |
+   | http://www.php.net/license/3_01.txt                                  |
+   | If you did not receive a copy of the PHP license and are unable to   |
+   | obtain it through the world-wide-web, please send a note to          |
+   | license@php.net so we can mail you a copy immediately.               |
+   +----------------------------------------------------------------------+
+*/
+#include "hphp/runtime/server/http-request-handler.h"
+
+#include <string>
+#include <vector>
+
+#include "hphp/runtime/base/datetime.h"
+#include "hphp/runtime/base/execution-context.h"
+#include "hphp/runtime/base/hhprof.h"
+#include "hphp/runtime/base/init-fini-node.h"
+#include "hphp/runtime/base/preg.h"
+#include "hphp/runtime/base/program-functions.h"
+#include "hphp/runtime/base/resource-data.h"
+#include "hphp/runtime/base/runtime-option.h"
+#include "hphp/runtime/debugger/debugger.h"
+#include "hphp/runtime/ext/extension-registry.h"
+#include "hphp/runtime/ext/std/ext_std_function.h"
+#include "hphp/runtime/ext/xdebug/status.h"
+#include "hphp/runtime/server/access-log.h"
+#include "hphp/runtime/server/files-match.h"
+#include "hphp/runtime/server/http-protocol.h"
+#include "hphp/runtime/server/request-uri.h"
+#include "hphp/runtime/server/server-stats.h"
+#include "hphp/runtime/server/source-root-info.h"
+#include "hphp/runtime/server/static-content-cache.h"
+#include "hphp/runtime/vm/debugger-hook.h"
+
+#include "hphp/util/alloc.h"
+#include "hphp/util/lock.h"
+#include "hphp/util/mutex.h"
+#include "hphp/util/network.h"
+#include "hphp/util/service-data.h"
+#include "hphp/util/stack-trace.h"
+#include "hphp/util/timer.h"
+
+namespace HPHP {
+
+using std::string;
+using std::vector;
+
+///////////////////////////////////////////////////////////////////////////////
+
+static ReadWriteMutex s_proxyMutex;
+static __thread unsigned int s_randState = 0xfaceb00c;
+
+static bool matchAnyPattern(const std::string &path,
+                            const std::vector<std::string> &patterns) {
+  String spath(path.c_str(), path.size(), CopyString);
+  for (unsigned int i = 0; i < patterns.size(); i++) {
+    Variant ret = preg_match(String(patterns[i].c_str(), patterns[i].size(),
+                                    CopyString),
+                             spath);
+    if (ret.toInt64() > 0) return true;
+  }
+  return false;
+}
+
+/*
+ * Returns true iff a request to the given path should be delegated to the
+ * proxy origin.
+ */
+static bool shouldProxyPath(const std::string& path) {
+  ReadLock lock(s_proxyMutex);
+
+  if (RuntimeOption::ProxyOriginRaw.empty()) return false;
+
+  if (RuntimeOption::UseServeURLs && RuntimeOption::ServeURLs.count(path)) {
+    return true;
+  }
+
+  if (RuntimeOption::UseProxyURLs) {
+    if (RuntimeOption::ProxyURLs.count(path)) return true;
+    if (matchAnyPattern(path, RuntimeOption::ProxyPatterns)) return true;
+  }
+
+  if (RuntimeOption::ProxyPercentageRaw > 0) {
+    if ((abs(rand_r(&s_randState)) % 100) < RuntimeOption::ProxyPercentageRaw) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+static std::string getProxyPath(const char* origPath) {
+  ReadLock lock(s_proxyMutex);
+
+  return RuntimeOption::ProxyOriginRaw + origPath;
+}
+
+void setProxyOriginPercentage(const std::string& origin, int percentage) {
+  WriteLock lock(s_proxyMutex);
+
+  RuntimeOption::ProxyOriginRaw = origin;
+  RuntimeOption::ProxyPercentageRaw = percentage;
+  Logger::Warning("Updated proxy origin to `%s' and percentage to %d\n",
+                  origin.c_str(), percentage);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_THREAD_LOCAL(AccessLog::ThreadData,
+                       HttpRequestHandler::s_accessLogThreadData);
+
+AccessLog HttpRequestHandler::s_accessLog(
+  &(HttpRequestHandler::getAccessLogThreadData));
+
+HttpRequestHandler::HttpRequestHandler(int timeout)
+    : RequestHandler(timeout), m_pathTranslation(true)
+    , m_requestTimedOutOnQueue(ServiceData::createTimeseries(
+                                 "requests_timed_out_on_queue",
+                                 {ServiceData::StatsType::COUNT})) { }
+
+void HttpRequestHandler::sendStaticContent(Transport *transport,
+                                           const char *data, int len,
+                                           time_t mtime,
+                                           bool compressed,
+                                           const std::string &cmd,
+                                           const char *ext) {
+  assert(ext);
+  assert(cmd.rfind('.') != std::string::npos);
+  assert(strcmp(ext, cmd.c_str() + cmd.rfind('.') + 1) == 0);
+
+  auto iter = RuntimeOption::StaticFileExtensions.find(ext);
+  if (iter != RuntimeOption::StaticFileExtensions.end()) {
+    string val = iter->second;
+    const char *valp = val.c_str();
+    if (strncmp(valp, "text/", 5)  == 0 &&
+        (strcmp(valp + 5, "plain") == 0 ||
+         strcmp(valp + 5, "html")  == 0)) {
+      // Apache adds character set for these two types
+      val += "; charset=";
+      val += IniSetting::Get("default_charset");
+      valp = val.c_str();
+    }
+    transport->addHeader("Content-Type", valp);
+  } else {
+    transport->addHeader("Content-Type", "application/octet-stream");
+  }
+
+  time_t base = time(nullptr);
+  if (RuntimeOption::ExpiresActive) {
+    time_t exp = base + RuntimeOption::ExpiresDefault;
+    char age[20];
+    snprintf(age, sizeof(age), "max-age=%d", RuntimeOption::ExpiresDefault);
+    transport->addHeader("Cache-Control", age);
+    transport->addHeader("Expires",
+      req::make<DateTime>(exp, true)->toString(
+        DateTime::DateFormat::HttpHeader).c_str());
+  }
+
+  if (mtime) {
+    transport->addHeader("Last-Modified",
+      req::make<DateTime>(mtime, true)->toString(
+        DateTime::DateFormat::HttpHeader).c_str());
+  }
+  transport->addHeader("Accept-Ranges", "bytes");
+
+  for (unsigned int i = 0; i < RuntimeOption::FilesMatches.size(); i++) {
+    FilesMatch &rule = *RuntimeOption::FilesMatches[i];
+    if (rule.match(cmd)) {
+      const vector<string> &headers = rule.getHeaders();
+      for (unsigned int j = 0; j < headers.size(); j++) {
+        transport->addHeader(String(headers[j]));
+      }
+    }
+  }
+
+  // misnomer, it means we have made decision on compression, transport
+  // should not attempt to compress it.
+  transport->disableCompression();
+
+  transport->sendRaw((void*)data, len, 200, compressed);
+  transport->onSendEnd();
+}
+
+void HttpRequestHandler::logToAccessLog(Transport* transport) {
+  GetAccessLog().onNewRequest();
+  GetAccessLog().log(transport, VirtualHost::GetCurrent());
+}
+
+void HttpRequestHandler::setupRequest(Transport* transport) {
+  MemoryManager::requestInit();
+  HHProf::Request::Setup(transport);
+
+  g_context.getCheck();
+  GetAccessLog().onNewRequest();
+
+  // Set current virtual host.
+  HttpProtocol::GetVirtualHost(transport);
+}
+
+void HttpRequestHandler::teardownRequest(Transport* transport) noexcept {
+  SCOPE_EXIT { always_assert(MM().empty()); };
+
+  const VirtualHost *vhost = VirtualHost::GetCurrent();
+  GetAccessLog().log(transport, vhost);
+
+  // HPHP logs may need to access data in ServerStats, so we have to clear the
+  // hashtable after writing the log entry.
+  ServerStats::Reset();
+  m_sourceRootInfo.clear();
+
+  if (is_hphp_session_initialized()) {
+    hphp_session_exit();
+  } else {
+    // Even though there are no sessions, memory is allocated to perform
+    // INI setting bindings when the thread is initialized.
+    hphp_memory_cleanup();
+  }
+
+  MemoryManager::requestShutdown();
+  HHProf::Request::Teardown();
+}
+
+void HttpRequestHandler::handleRequest(Transport *transport) {
+  ExecutionProfiler ep(ThreadInfo::RuntimeFunctions);
+
+  Logger::OnNewRequest();
+  transport->enableCompression();
+
+  ServerStatsHelper ssh("all",
+                        ServerStatsHelper::TRACK_MEMORY |
+                        ServerStatsHelper::TRACK_HWINST);
+  Logger::Verbose("receiving %s", transport->getCommand().c_str());
+
+  // will clear all extra logging when this function goes out of scope
+  StackTraceNoHeap::ExtraLoggingClearer clearer;
+  StackTraceNoHeap::AddExtraLogging("URL", transport->getUrl());
+
+  // resolve virtual host
+  const VirtualHost *vhost = VirtualHost::GetCurrent();
+  assert(vhost);
+  if (vhost->disabled() ||
+      vhost->isBlocking(transport->getCommand(), transport->getRemoteHost())) {
+    transport->sendString("Not Found", 404);
+    transport->onSendEnd();
+    return;
+  }
+
+  // don't serve the request if it's been sitting in queue for longer than our
+  // allowed request timeout.
+  int requestTimeoutSeconds =
+    vhost->getRequestTimeoutSeconds(getDefaultTimeout());
+  if (requestTimeoutSeconds > 0) {
+    timespec now;
+    Timer::GetMonotonicTime(now);
+    const timespec& queueTime = transport->getQueueTime();
+
+    if (gettime_diff_us(queueTime, now) > requestTimeoutSeconds * 1000000) {
+      transport->sendString("Service Unavailable", 503);
+      transport->onSendEnd();
+      m_requestTimedOutOnQueue->addValue(1);
+      return;
+    }
+  }
+
+  ServerStats::StartRequest(transport->getCommand().c_str(),
+                            transport->getRemoteHost(),
+                            vhost->getName().c_str());
+
+  // resolve source root
+  always_assert(!m_sourceRootInfo.hasValue());
+  m_sourceRootInfo.emplace(transport);
+  if (m_sourceRootInfo->error()) {
+    m_sourceRootInfo->handleError(transport);
+    return;
+  }
+
+  // request URI
+  string pathTranslation = m_pathTranslation ?
+    vhost->getPathTranslation().c_str() : "";
+  RequestURI reqURI(vhost, transport, pathTranslation,
+                    m_sourceRootInfo->path());
+  if (reqURI.done()) {
+    return; // already handled with redirection or 404
+  }
+  string path = reqURI.path().data();
+  string absPath = reqURI.absolutePath().data();
+
+  // determine whether we should compress response
+  bool compressed = transport->decideCompression();
+
+  const char *data; int len;
+  const char *ext = reqURI.ext();
+
+  if (reqURI.forbidden()) {
+    transport->sendString("Forbidden", 403);
+    transport->onSendEnd();
+    return;
+  }
+
+  // Determine which extensions should be treated as php
+  // source code. If the execution engine doesn't understand
+  // the source, the content will be spit out verbatim.
+  bool treatAsContent = ext &&
+       strcasecmp(ext, "php") != 0 &&
+       strcasecmp(ext, "hh") != 0 &&
+       (RuntimeOption::PhpFileExtensions.empty() ||
+        !RuntimeOption::PhpFileExtensions.count(ext));
+
+  // If this is not a php file, check the static content cache
+  if (treatAsContent) {
+    bool original = compressed;
+    // check against static content cache
+    if (StaticContentCache::TheCache.find(path, data, len, compressed)) {
+      ScopedMem decompressed_data;
+      // (qigao) not calling stat at this point because the timestamp of
+      // local cache file is not valuable, maybe misleading. This way
+      // the Last-Modified header will not show in response.
+      // stat(RuntimeOption::FileCache.c_str(), &st);
+      if (!original && compressed) {
+        data = gzdecode(data, len);
+        if (data == nullptr) {
+          raise_fatal_error("cannot unzip compressed data");
+        }
+        decompressed_data = const_cast<char*>(data);
+        compressed = false;
+      }
+      sendStaticContent(transport, data, len, 0, compressed, path, ext);
+      ServerStats::LogPage(path, 200);
+      return;
+    }
+
+    if (RuntimeOption::EnableStaticContentFromDisk) {
+      String translated = File::TranslatePath(String(absPath));
+      if (!translated.empty()) {
+        CstrBuffer sb(translated.data());
+        if (sb.valid()) {
+          struct stat st;
+          st.st_mtime = 0;
+          stat(translated.data(), &st);
+          sendStaticContent(transport, sb.data(), sb.size(), st.st_mtime,
+                            false, path, ext);
+          ServerStats::LogPage(path, 200);
+          return;
+        }
+      }
+    }
+  }
+
+  // proxy any URLs that not specified in ServeURLs
+  if (shouldProxyPath(path)) {
+    for (int i = 0; i < RuntimeOption::ProxyRetry; i++) {
+      bool force = (i == RuntimeOption::ProxyRetry - 1); // last one
+      if (handleProxyRequest(transport, force)) break;
+    }
+    return;
+  }
+
+  // record request for debugging purpose
+  std::string tmpfile = HttpProtocol::RecordRequest(transport);
+
+  // main body
+  hphp_session_init();
+  ThreadInfo::s_threadInfo->m_reqInjectionData.
+    setTimeout(requestTimeoutSeconds);
+
+  bool ret = false;
+  try {
+    ret = executePHPRequest(transport, reqURI, m_sourceRootInfo.value());
+  } catch (...) {
+    string emsg;
+    string response;
+    int code = 500;
+    try {
+      throw;
+    } catch (const Eval::DebuggerException &e) {
+      code = 200;
+      response = e.what();
+    } catch (const XDebugExitExn& e) {
+      code = 200;
+      response = e.what();
+    } catch (Object &e) {
+      try {
+        emsg = e.toString().data();
+      } catch (...) {
+        emsg = "Unknown";
+      }
+    } catch (const std::exception &e) {
+      emsg = e.what();
+    } catch (...) {
+      emsg = "Unknown";
+    }
+    g_context->onShutdownPostSend();
+    Eval::Debugger::InterruptPSPEnded(transport->getUrl());
+    if (code != 200) {
+      Logger::Error("Unhandled server exception: %s", emsg.c_str());
+    }
+    transport->sendString(response, code);
+    transport->onSendEnd();
+    hphp_context_exit();
+  }
+  HttpProtocol::ClearRecord(ret, tmpfile);
+}
+
+void HttpRequestHandler::abortRequest(Transport* transport) {
+  // TODO: t5284137 add some tests for abortRequest
+  transport->sendString("Service Unavailable", 503);
+  transport->onSendEnd();
+}
+
+bool HttpRequestHandler::executePHPRequest(Transport *transport,
+                                           RequestURI &reqURI,
+                                           SourceRootInfo &sourceRootInfo) {
+  auto context = g_context.getNoCheck();
+  OBFlags obFlags = OBFlags::Default;
+  if (transport->getHTTPVersion() != "1.1") {
+    obFlags |= OBFlags::OutputDisabled;
+  }
+  context->obStart(uninit_null(), 0, obFlags);
+  context->obProtect(true);
+  if (RuntimeOption::ImplicitFlush) {
+    context->obSetImplicitFlush(true);
+  }
+  if (RuntimeOption::EnableOutputBuffering) {
+    if (RuntimeOption::OutputHandler.empty()) {
+      context->obStart();
+    } else {
+      context->obStart(String(RuntimeOption::OutputHandler));
+    }
+  }
+  context->setTransport(transport);
+  InitFiniNode::RequestStart();
+
+  string file = reqURI.absolutePath().c_str();
+  {
+    ServerStatsHelper ssh("input");
+    HttpProtocol::PrepareSystemVariables(transport, reqURI, sourceRootInfo);
+    InitFiniNode::GlobalsInit();
+
+    if (RuntimeOption::EnableDebugger) {
+      Eval::DSandboxInfo sInfo = sourceRootInfo.getSandboxInfo();
+      Eval::Debugger::RegisterSandbox(sInfo);
+      context->setSandboxId(sInfo.id());
+    }
+    reqURI.clear();
+    sourceRootInfo.clear();
+  }
+
+  int code;
+  bool ret = true;
+
+  // Let the debugger initialize.
+  // FIXME: hphpd can be initialized this way as well
+  DEBUGGER_ATTACHED_ONLY(phpDebuggerRequestInitHook());
+  if (RuntimeOption::EnableDebugger) {
+    Eval::Debugger::InterruptRequestStarted(transport->getUrl());
+  }
+
+  bool error = false;
+  std::string errorMsg = "Internal Server Error";
+  ret = hphp_invoke(context, file, false, Array(), uninit_null(),
+                    RuntimeOption::RequestInitFunction,
+                    RuntimeOption::RequestInitDocument,
+                    error, errorMsg,
+                    true /* once */,
+                    false /* warmupOnly */,
+                    false /* richErrorMessage */);
+
+  if (ret) {
+    String content = context->obDetachContents();
+    transport->sendRaw((void*)content.data(), content.size());
+    code = transport->getResponseCode();
+  } else if (error) {
+    code = 500;
+
+    string errorPage = context->getErrorPage().data();
+    if (errorPage.empty()) {
+      errorPage = RuntimeOption::ErrorDocument500;
+    }
+    if (!errorPage.empty()) {
+      context->obProtect(false);
+      context->obEndAll();
+      context->obStart();
+      context->obProtect(true);
+      ret = hphp_invoke(context, errorPage, false, Array(), uninit_null(),
+                        RuntimeOption::RequestInitFunction,
+                        RuntimeOption::RequestInitDocument,
+                        error, errorMsg,
+                        true /* once */,
+                        false /* warmupOnly */,
+                        false /* richErrorMessage */);
+      if (ret) {
+        String content = context->obDetachContents();
+        transport->sendRaw((void*)content.data(), content.size());
+        code = transport->getResponseCode();
+      } else {
+        Logger::Error("Unable to invoke error page %s", errorPage.c_str());
+        errorPage.clear(); // so we fall back to 500 return
+      }
+    }
+    if (errorPage.empty()) {
+      if (RuntimeOption::ServerErrorMessage) {
+        transport->sendString(errorMsg, 500, false, false, "hphp_invoke");
+      } else {
+        transport->sendString(RuntimeOption::FatalErrorMessage,
+                              500, false, false, "hphp_invoke");
+      }
+    }
+  } else {
+    code = 404;
+    transport->sendString("RequestInitDocument Not Found", 404);
+  }
+
+  if (RuntimeOption::EnableDebugger) {
+    Eval::Debugger::InterruptRequestEnded(transport->getUrl());
+  }
+
+  // If we have registered post-send shutdown functions, end the request before
+  // executing them. If we don't, be compatible with Zend by allowing usercode
+  // in hphp_context_shutdown to run before we end the request.
+  bool hasPostSend =
+    context->hasShutdownFunctions(ExecutionContext::ShutdownType::PostSend);
+  if (hasPostSend) {
+    transport->onSendEnd();
+  }
+  context->onShutdownPostSend();
+  Eval::Debugger::InterruptPSPEnded(transport->getUrl());
+  hphp_context_shutdown();
+  if (!hasPostSend) {
+    transport->onSendEnd();
+  }
+  hphp_context_exit(false);
+  ServerStats::LogPage(file, code);
+  return ret;
+}
+
+bool HttpRequestHandler::handleProxyRequest(Transport *transport, bool force) {
+  auto const url = getProxyPath(transport->getServerObject());
+
+  int code = 0;
+  std::string error;
+  StringBuffer response;
+  if (!HttpProtocol::ProxyRequest(transport, force, url, code, error,
+                                  response)) {
+    return false;
+  }
+  if (code == 0) {
+    transport->sendString(error, 500, false, false, "handleProxyRequest");
+    return true;
+  }
+
+  const char* respData = response.data();
+  if (!respData) {
+    respData = "";
+  }
+  transport->sendRaw((void*)respData, response.size(), code);
+  return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+}

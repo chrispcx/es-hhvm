@@ -1,0 +1,10 @@
+*** Testing preg_split() : error conditions ***
+
+Arg value is: Array
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+Done

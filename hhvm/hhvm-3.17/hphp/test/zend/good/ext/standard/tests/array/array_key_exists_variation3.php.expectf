@@ -1,0 +1,26 @@
+*** Testing array_key_exists() : usage variations ***
+
+-- Iteration 1 --
+Pass float as $key:
+
+Warning: %s
+bool(false)
+Cast float to int:
+bool(true)
+
+-- Iteration 1 --
+Pass float as $key:
+
+Warning: %s
+bool(false)
+Cast float to int:
+bool(true)
+
+-- Iteration 1 --
+Pass float as $key:
+
+Warning: %s
+bool(false)
+Cast float to int:
+bool(true)
+Done

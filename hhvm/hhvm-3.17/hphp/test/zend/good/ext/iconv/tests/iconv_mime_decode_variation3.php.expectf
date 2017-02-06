@@ -1,0 +1,106 @@
+*** Testing iconv_mime_decode() : usage variations ***
+
+-- Iteration 1 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 2 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 3 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 4 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 5 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 6 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 7 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 8 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 9 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 10 --
+string(44) "5375626a6563743a20412053616d706c652054657374"
+
+-- Iteration 11 --
+string(44) "5375626a6563743a20412053616d706c652054657374"
+
+-- Iteration 12 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 13 --
+string(44) "5375626a6563743a20412053616d706c652054657374"
+
+-- Iteration 14 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 15 --
+string(44) "5375626a6563743a20412053616d706c652054657374"
+
+-- Iteration 16 --
+string(44) "5375626a6563743a20412053616d706c652054657374"
+
+-- Iteration 17 --
+string(44) "5375626a6563743a20412053616d706c652054657374"
+
+-- Iteration 18 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 19 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 20 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 21 --
+
+Notice: %s
+bool(false)
+
+-- Iteration 22 --
+string(44) "5375626a6563743a20412053616d706c652054657374"
+
+-- Iteration 23 --
+string(44) "5375626a6563743a20412053616d706c652054657374"
+
+-- Iteration 24 --
+
+Warning: %s
+bool(false)
+Done

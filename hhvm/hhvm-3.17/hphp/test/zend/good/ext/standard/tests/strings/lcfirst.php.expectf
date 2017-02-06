@@ -1,0 +1,84 @@
+#### Basic and Various operations ####
+
+Notice: %s
+string(16) "tesTing lcfirst."
+string(17) "1.testing lcfirst"
+string(11) "hELLO wORLD"
+string(11) "hELLO wORLD"
+string(1) "%r\x00%r"
+string(1) "%r\x00%r"
+string(2) "%r\x00%r0"
+string(4) "abcd"
+string(3) "xyz"
+string(6) "string"
+string(2) "-3"
+string(2) "-3"
+string(6) "-3.344"
+string(6) "-3.344"
+string(0) ""
+string(4) "nULL"
+string(1) "0"
+string(1) "0"
+string(1) "1"
+string(4) "tRUE"
+string(1) "1"
+string(1) "1"
+string(8) "1.234444"
+string(0) ""
+string(5) "fALSE"
+string(1) " "
+string(5) "     "
+string(1) "b"
+string(2) "\t"
+string(1) "%r\x09%r"
+string(2) "12"
+string(8) "12twelve"
+
+#### Testing Miscelleneous inputs ####
+--- Testing arrays ---
+Warning: %s
+NULL
+
+--- Testing lowercamelcase action call example ---
+string(%d) "partnerName"
+
+--- Testing objects ---
+string(11) "hello world"
+
+--- Testing Resources ---
+string(6) "stream"
+string(1) "0"
+
+--- Testing a longer and heredoc string ---
+string(639) "abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789
+abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789
+abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789
+abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789
+abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789
+abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789
+abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789
+@#$%^&**&^%$#@!~:())))((((&&&**%$###@@@!!!~~~~@###$%^&*
+abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789"
+
+--- Testing a heredoc null string ---
+string(0) ""
+
+--- Testing simple and complex syntax strings ---
+string(5) "world"
+string(7) "world'S"
+
+Notice: %s
+string(0) ""
+string(6) "worldS"
+string(6) "worldS"
+
+--- Nested lcfirst() ---
+string(5) "hello"
+
+#### error conditions ####
+Warning: %s
+
+Warning: %s
+
+Warning: %s
+Done

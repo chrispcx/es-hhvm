@@ -1,0 +1,49 @@
+DateTimeZone
+object(DateTimeZone)#1 (0) {
+}
+
+Warning: Attempted to serialize unserializable builtin class DateTimeZone in %s/test/quick/builtin_extensions.inc on line 8
+string(2) "N;"
+NULL
+array(7) {
+  [0]=>
+  string(11) "__construct"
+  [1]=>
+  string(11) "getLocation"
+  [2]=>
+  string(7) "getName"
+  [3]=>
+  string(9) "getOffset"
+  [4]=>
+  string(14) "getTransitions"
+  [5]=>
+  string(17) "listAbbreviations"
+  [6]=>
+  string(15) "listIdentifiers"
+}
+================
+A_DateTimeZone
+object(A_DateTimeZone)#2 (1) {
+  ["___x"]=>
+  NULL
+}
+
+Warning: Attempted to serialize unserializable builtin class A_DateTimeZone in %s/test/quick/builtin_extensions.inc on line 26
+string(2) "N;"
+NULL
+array(7) {
+  [0]=>
+  string(11) "__construct"
+  [1]=>
+  string(11) "getLocation"
+  [2]=>
+  string(7) "getName"
+  [3]=>
+  string(9) "getOffset"
+  [4]=>
+  string(14) "getTransitions"
+  [5]=>
+  string(17) "listAbbreviations"
+  [6]=>
+  string(15) "listIdentifiers"
+}

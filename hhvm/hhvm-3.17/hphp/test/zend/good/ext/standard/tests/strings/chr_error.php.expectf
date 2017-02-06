@@ -1,0 +1,12 @@
+*** Testing chr() : error conditions ***
+
+-- Testing chr() function with no arguments --
+
+Warning: %s
+NULL
+
+-- Testing chr() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+===DONE===

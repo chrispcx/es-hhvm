@@ -1,0 +1,7 @@
+*** Testing unlink() on deleted file ***
+bool(true)
+bool(false)
+
+Warning: %s
+bool(false)
+Done

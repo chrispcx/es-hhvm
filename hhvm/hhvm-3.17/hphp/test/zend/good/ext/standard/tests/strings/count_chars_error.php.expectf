@@ -1,0 +1,12 @@
+*** Testing count_chars() : error conditions ***
+
+-- Testing count_chars() function with no arguments --
+
+Warning: %s
+NULL
+
+-- Testing count_chars() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+===DONE===

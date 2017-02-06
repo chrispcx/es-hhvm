@@ -1,0 +1,11 @@
+Creating Table
+bool(true)
+INSERT into table
+bool(true)
+Prepare query
+Reset query
+
+Warning: %s
+Closing database
+bool(true)
+Done

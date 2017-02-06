@@ -1,0 +1,149 @@
+# Tests unwinding with dirty callee-saved registers that are mapped to
+# execution stack locations.
+
+.main {
+  FPushFuncD 1 "set_error_handler"
+    String "thrower"
+    FPassC 0
+  FCall 1
+  PopR
+
+  # If get_undefined_var is inlined then the context passed to handler will
+  # contain the locals from test_unwind_dirty_stack_regs in an array which will
+  # be stored along wtih other arguments inside the exception unless we pass
+  # ignore args. If this happens the exception will keep the DtorPrinter objects
+  # alive past the end of test_unwind_dirty_stack_regs.
+  FPushClsMethodD 1 "setTraceOptions" "Exception"
+    Cns "DEBUG_BACKTRACE_IGNORE_ARGS"
+    FPassCE 0
+  FCall 1
+  PopR
+
+  .try_catch (Exception handler) {
+    FPushFuncD 0 "test_unwind_dirty_stack_regs"
+    FCall 0
+    UnboxR
+    RetC
+  }
+
+handler:
+  String "Received exception:  "
+  Catch
+  FPushObjMethodD 0 "getMessage" NullThrows
+  FCall 0
+  UnboxR
+  Concat
+  String "\n"
+  Concat
+  Print
+  PopC
+  Int 1
+  RetC
+}
+
+.function thrower() {
+  FPushCtorD 1 "Exception"
+    String "hi"
+    FPassC 0
+  FCall 1
+  PopR
+  Throw
+}
+
+.class DtorPrinter {
+  .method [public] __construct($id) {
+    String "ctor: "
+    CGetL $id
+    Concat
+    String "\n"
+    Concat
+    Print
+    PopC
+
+    This
+    CGetL $id
+    BaseC 1
+    SetM 1 PT:"x"
+    PopC
+    Int 1
+    RetC
+  }
+
+  .method [public] __destruct() {
+    String "dtor: "
+    This
+    BaseC 0
+    QueryM 1 CGet PT:"x"
+    Concat
+    String "\n"
+    Concat
+    Print
+    RetC
+  }
+
+  .property [private] x;
+}
+
+.function make_obj($id) {
+  FPushCtorD 1 "DtorPrinter"
+    FPassL 0 $id
+  FCall 1
+  PopR
+  RetC
+}
+
+# We do this in a separate scope to avoid
+# having the $k_* locals in test_unwind_dirty_stack_regs()
+# getting caught in the $context parameter to handler()
+.function get_undefined_var() {
+  CGetL $k_99  # undefined variable
+  RetC
+}
+
+# This test is dependent on the register allocator implementation, but
+# probably better than nothing and unlikely to significantly change.
+# It seems fairly hard to get a EMIT_CALL to happen while a Stack
+# location is in a dirty callee-saved register with our normal php
+# emitter, but this accomplishes it by CGetL'ing everything to the
+# stack.
+
+.function test_unwind_dirty_stack_regs() {
+  FPushFuncD 1 "make_obj"
+    Int 0
+    FPassC 0
+  FCall 1
+  UnboxR
+  SetL $k_0
+  PopC
+  FPushFuncD 1 "make_obj"
+    Int 1
+    FPassC 0
+  FCall 1
+  UnboxR
+  SetL $k_1
+  PopC
+  FPushFuncD 1 "make_obj"
+    Int 2
+    FPassC 0
+  FCall 1
+  UnboxR
+  SetL $k_2
+  PopC
+
+  CGetL $k_0
+  CGetL $k_1
+  CGetL $k_2
+
+  FPushFuncD 0 "get_undefined_var"
+  FCall 0
+  PopR
+
+  # This code isn't reached---but let's Pop this junk just so
+  # theoretically we could pass verification some day.
+  PopC # k_0
+  PopC
+  PopC
+
+  Int 1
+  RetC
+}

@@ -1,0 +1,201 @@
+(**
+ * Copyright (c) 2016, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the "hack" directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ *)
+
+ (**
+  *
+  * Usage: full_fidelity_parse [OPTIONS] [FILES]
+  *
+  * --full-fidelity-json
+  * --full-fidelity-errors
+  * --full-fidelity-errors-all
+  * --full-fidelity-s-expression
+  * --original-parser-errors
+  * --original-parser-s-expression
+  * --program-text
+  * --pretty-print
+  *
+  * TODO: Parser for things other than scripts:
+  *       types, expressions, statements, declarations, etc.
+  *)
+
+module SyntaxError = Full_fidelity_syntax_error
+module SyntaxTree = Full_fidelity_syntax_tree
+module SourceText = Full_fidelity_source_text
+
+module FullFidelityParseArgs = struct
+
+  type t =
+  {
+    full_fidelity_json : bool;
+    full_fidelity_errors : bool;
+    full_fidelity_errors_all : bool;
+    full_fidelity_s_expr : bool;
+    original_parser_errors : bool;
+    original_parser_s_expr : bool;
+    program_text : bool;
+    pretty_print : bool;
+    files : string list
+  }
+
+  let make
+    full_fidelity_json
+    full_fidelity_errors
+    full_fidelity_errors_all
+    full_fidelity_s_expr
+    original_parser_errors
+    original_parser_s_expr
+    program_text
+    pretty_print
+    files = {
+    full_fidelity_json;
+    full_fidelity_errors;
+    full_fidelity_errors_all;
+    full_fidelity_s_expr;
+    original_parser_errors;
+    original_parser_s_expr;
+    program_text;
+    pretty_print;
+    files }
+
+  let parse_args () =
+    let usage = Printf.sprintf "Usage: %s [OPTIONS] filename\n" Sys.argv.(0) in
+    let full_fidelity_json = ref false in
+    let set_full_fidelity_json () = full_fidelity_json := true in
+    let full_fidelity_errors = ref false in
+    let set_full_fidelity_errors () = full_fidelity_errors := true in
+    let full_fidelity_errors_all = ref false in
+    let set_full_fidelity_errors_all () =
+      full_fidelity_errors_all := true in
+    let full_fidelity_s_expr = ref false in
+    let set_full_fidelity_s_expr () = full_fidelity_s_expr := true in
+    let original_parser_errors = ref false in
+    let set_original_parser_errors () = original_parser_errors := true in
+    let original_parser_s_expr = ref false in
+    let set_original_parser_s_expr () = original_parser_s_expr := true in
+    let program_text = ref false in
+    let set_program_text () = program_text := true in
+    let pretty_print = ref false in
+    let set_pretty_print () = pretty_print := true in
+    let files = ref [] in
+    let push_file file = files := file :: !files in
+    let options =  [
+      (* modes *)
+      "--full-fidelity-json",
+        Arg.Unit set_full_fidelity_json,
+        "Displays the full-fidelity parse tree in JSON format.";
+      "--full-fidelity-errors",
+        Arg.Unit set_full_fidelity_errors,
+        "Displays the full-fidelity parser errors, if any.
+Some errors may be filtered out.";
+      "--full-fidelity-errors-all",
+        Arg.Unit set_full_fidelity_errors_all,
+        "Displays the full-fidelity parser errors, if any.
+No errors are filtered out.";
+      "--full-fidelity-s-expression",
+        Arg.Unit set_full_fidelity_s_expr,
+        "Displays the full-fidelity parse tree in S-expression format.";
+      "--original-parser-errors",
+        Arg.Unit set_original_parser_errors,
+        "Displays the original parse tree errors, if any.";
+      "--original-parser-s-expression",
+        Arg.Unit set_original_parser_s_expr,
+        "Displays the original parse tree in S-expression format.";
+      "--program-text",
+        Arg.Unit set_program_text,
+        "Displays the text of the given file.";
+      "--pretty-print",
+        Arg.Unit set_pretty_print,
+        "Displays the text of the given file after pretty-printing."] in
+    Arg.parse options push_file usage;
+    make
+      !full_fidelity_json
+      !full_fidelity_errors
+      !full_fidelity_errors_all
+      !full_fidelity_s_expr
+      !original_parser_errors
+      !original_parser_s_expr
+      !program_text
+      !pretty_print
+      (List.rev !files)
+end
+
+open FullFidelityParseArgs
+
+let print_error error = error
+  |> Errors.to_absolute
+  |> Errors.to_string
+  |> output_string stdout
+
+let print_full_fidelity_error source_text error =
+  let text = SyntaxError.to_positioned_string
+    error (SourceText.offset_to_position source_text) in
+  Printf.printf "%s\n" text
+
+let handle_file args filename =
+  (* Parse with the full fidelity parser *)
+  let file = Relative_path.create Relative_path.Dummy filename in
+  let source_text = SourceText.from_file file in
+  let syntax_tree = SyntaxTree.make source_text in
+  let editable = Full_fidelity_editable_syntax.from_tree syntax_tree in
+
+  (* Parse with the original parser *)
+  let (original_errors, original_parse, _) = Errors.do_
+    begin
+      fun () -> Parser_hack.from_file ParserOptions.default file
+    end in
+
+  if args.program_text then begin
+    let text = Full_fidelity_editable_syntax.text editable in
+    Printf.printf "%s\n" text
+  end;
+  if args.pretty_print then begin
+    let pretty = Full_fidelity_pretty_printer.pretty_print editable in
+    Printf.printf "%s\n" pretty
+  end;
+  if args.full_fidelity_errors then begin
+    let errors = (SyntaxTree.errors syntax_tree) in
+    List.iter (print_full_fidelity_error source_text) errors
+  end;
+  if args.full_fidelity_errors_all then begin
+    let errors = (SyntaxTree.all_errors syntax_tree) in
+    List.iter (print_full_fidelity_error source_text) errors
+  end;
+  if args.full_fidelity_s_expr then begin
+    let str = Debug.dump_full_fidelity syntax_tree in
+    Printf.printf "%s" str
+  end;
+  if args.original_parser_errors then begin
+    Errors.iter_error_list print_error original_errors
+  end;
+  if args.original_parser_s_expr then begin
+    let ast = Ast.AProgram original_parse.Parser_hack.ast in
+    let str = Debug.dump_ast ast in
+    Printf.printf "%s\n" str
+  end;
+  if args.full_fidelity_json then begin
+    let json = Full_fidelity_syntax_tree.to_json syntax_tree in
+    let str = Hh_json.json_to_string json in
+    Printf.printf "%s\n" str
+  end
+
+let rec main args files =
+  match files with
+  | [] -> ()
+  | file :: tail ->
+    begin
+      Unix.handle_unix_error (handle_file args) file;
+      main args tail
+    end
+
+let () =
+   let args = parse_args () in
+   EventLogger.init EventLogger.Event_logger_fake 0.0;
+   let _ = SharedMem.init GlobalConfig.default_sharedmem_config in
+   main args args.files

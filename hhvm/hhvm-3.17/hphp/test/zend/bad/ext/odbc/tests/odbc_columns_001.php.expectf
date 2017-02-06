@@ -1,0 +1,10 @@
+resource(%d) of type (odbc result)
+bool(false)
+resource(%d) of type (odbc result)
+bool(false)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+NULL

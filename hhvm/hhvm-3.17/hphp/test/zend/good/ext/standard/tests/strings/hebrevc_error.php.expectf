@@ -1,0 +1,13 @@
+*** Testing hebrevc() : error conditions ***
+
+-- Testing hebrevc() function with no arguments --
+
+Warning: %s
+NULL
+
+-- Testing hebrevc() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+ 
+===DONE===

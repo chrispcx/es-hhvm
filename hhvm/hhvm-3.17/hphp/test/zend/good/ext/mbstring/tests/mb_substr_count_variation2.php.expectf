@@ -1,0 +1,92 @@
+*** Testing mb_substr_count() : usage variations ***
+
+-- Iteration 1 --
+int(0)
+
+-- Iteration 2 --
+int(0)
+
+-- Iteration 3 --
+int(0)
+
+-- Iteration 4 --
+int(0)
+
+-- Iteration 5 --
+int(0)
+
+-- Iteration 6 --
+int(0)
+
+-- Iteration 7 --
+int(0)
+
+-- Iteration 8 --
+int(0)
+
+-- Iteration 9 --
+int(0)
+
+-- Iteration 10 --
+
+Warning: %s
+bool(false)
+
+-- Iteration 11 --
+
+Warning: %s
+bool(false)
+
+-- Iteration 12 --
+int(0)
+
+-- Iteration 13 --
+
+Warning: %s
+bool(false)
+
+-- Iteration 14 --
+int(0)
+
+-- Iteration 15 --
+
+Warning: %s
+bool(false)
+
+-- Iteration 16 --
+
+Warning: %s
+bool(false)
+
+-- Iteration 17 --
+
+Warning: %s
+bool(false)
+
+-- Iteration 18 --
+int(1)
+
+-- Iteration 19 --
+int(1)
+
+-- Iteration 20 --
+int(1)
+
+-- Iteration 21 --
+int(1)
+
+-- Iteration 22 --
+
+Warning: %s
+bool(false)
+
+-- Iteration 23 --
+
+Warning: %s
+bool(false)
+
+-- Iteration 24 --
+
+Warning: %s
+NULL
+Done

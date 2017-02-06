@@ -1,0 +1,49 @@
+DOMXPath
+object(DOMXPath)#2 (1) {
+  ["document"]=>
+  string(22) "(object value omitted)"
+}
+
+Warning: Attempted to serialize unserializable builtin class DOMXPath in %s/test/quick/builtin_extensions.inc on line 8
+string(2) "N;"
+NULL
+array(6) {
+  [0]=>
+  string(11) "__construct"
+  [1]=>
+  string(8) "evaluate"
+  [2]=>
+  string(5) "query"
+  [3]=>
+  string(17) "registerNamespace"
+  [4]=>
+  string(20) "registerPHPFunctions"
+  [5]=>
+  string(11) "__debuginfo"
+}
+================
+A_DOMXPath
+object(A_DOMXPath)#3 (2) {
+  ["___x"]=>
+  NULL
+  ["document"]=>
+  string(22) "(object value omitted)"
+}
+
+Warning: Attempted to serialize unserializable builtin class A_DOMXPath in %s/test/quick/builtin_extensions.inc on line 26
+string(2) "N;"
+NULL
+array(6) {
+  [0]=>
+  string(11) "__construct"
+  [1]=>
+  string(8) "evaluate"
+  [2]=>
+  string(5) "query"
+  [3]=>
+  string(17) "registerNamespace"
+  [4]=>
+  string(20) "registerPHPFunctions"
+  [5]=>
+  string(11) "__debuginfo"
+}

@@ -1,0 +1,15 @@
+*** Testing get_extension_funcs() : error conditions ***
+
+-- Too few arguments --
+
+Warning: %s
+NULL
+
+-- Too many arguments --
+
+Warning: %s
+NULL
+
+-- Invalid extension name --
+bool(false)
+===DONE===

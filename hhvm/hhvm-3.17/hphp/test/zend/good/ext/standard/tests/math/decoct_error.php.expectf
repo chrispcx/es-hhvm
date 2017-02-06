@@ -1,0 +1,7 @@
+*** Testing decoct() :  error conditions ***
+Incorrect number of arguments
+
+Warning: %s
+
+Warning: %s
+===Done===

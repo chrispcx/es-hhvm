@@ -1,0 +1,12 @@
+*** Testing opendir() : error conditions ***
+
+-- Pass a non-existent absolute path: --
+
+Warning: %s
+bool(false)
+
+-- Pass a non-existent relative path: --
+
+Warning: %s
+bool(false)
+===DONE===

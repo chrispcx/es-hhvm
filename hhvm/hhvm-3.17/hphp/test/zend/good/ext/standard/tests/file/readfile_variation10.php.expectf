@@ -1,0 +1,35 @@
+*** Testing readfile() : variation ***
+-- testing '-1' --
+
+Warning: %s
+-- testing '1' --
+
+Warning: %s
+-- testing '' --
+
+Warning: %s
+-- testing '' --
+
+Warning: %s
+-- testing '' --
+
+Warning: %s
+-- testing ' ' --
+
+Warning: %s
+-- testing '%r\x00%r' --
+
+Warning: %s
+
+Notice: %s
+-- testing 'Array' --
+
+Warning: %s
+-- testing '%sdir' --
+
+Warning: %s
+-- testing '%sphp' --
+
+Warning: %s
+
+*** Done ***

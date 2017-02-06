@@ -1,0 +1,3 @@
+string(%d) "Class Generator is an internal class marked as final that cannot be instantiated without invoking its constructor"
+
+Catchable fatal error: %s

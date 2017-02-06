@@ -1,0 +1,10 @@
+non-static - ok
+static - ok
+non-static - ok
+static - ok
+non-static - ok
+static - ok
+non-static - ok
+static - ok
+
+Fatal error: %s

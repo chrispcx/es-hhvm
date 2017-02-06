@@ -1,0 +1,12 @@
+*** Testing ctype_lower() : error conditions ***
+
+-- Testing ctype_lower() function with Zero arguments --
+
+Warning: %s
+NULL
+
+-- Testing ctype_lower() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+===DONE===

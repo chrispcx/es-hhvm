@@ -1,0 +1,31 @@
+*** Testing mkdir(): error conditions ***
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Notice: %s
+
+Warning: %s
+bool(false)
+
+*** Testing rmdir(): error conditions ***
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Notice: %s
+
+Warning: %s
+bool(false)
+
+*** Testing rmdir() on non-existent directory ***
+
+Warning: %s
+bool(false)
+Done

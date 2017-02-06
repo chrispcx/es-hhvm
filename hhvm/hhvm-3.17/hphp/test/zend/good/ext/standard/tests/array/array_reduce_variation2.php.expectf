@@ -1,0 +1,11 @@
+*** Testing array_reduce() : variation - invalid parameters ***
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+===DONE===

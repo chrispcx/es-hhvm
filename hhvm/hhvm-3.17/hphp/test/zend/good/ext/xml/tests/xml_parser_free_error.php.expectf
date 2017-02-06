@@ -1,0 +1,12 @@
+*** Testing xml_parser_free() : error conditions ***
+
+-- Testing xml_parser_free() function with Zero arguments --
+
+Warning: %s
+NULL
+
+-- Testing xml_parser_free() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+Done

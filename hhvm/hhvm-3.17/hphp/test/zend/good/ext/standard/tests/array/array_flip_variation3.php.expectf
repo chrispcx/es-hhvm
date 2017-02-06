@@ -1,0 +1,55 @@
+*** Testing array_flip() : different valid values in 'input' array argument ***
+array(24) {
+  [1]=>
+  string(9) "int_value"
+  [-2]=>
+  string(14) "negative_value"
+  [0]=>
+  string(10) "zero_value"
+  [10]=>
+  string(11) "octal_value"
+  [35]=>
+  string(9) "hex_value"
+  [""]=>
+  string(13) "empty_heredoc"
+  [" "]=>
+  string(12) "space_value2"
+  ["a"]=>
+  string(11) "char_value1"
+  ["string1"]=>
+  string(13) "string_value1"
+  [123]=>
+  string(14) "numeric_value1"
+  ["!@#$%"]=>
+  string(19) "special_char_value1"
+  ["\t"]=>
+  string(18) "whitespace1_value1"
+  ["\n"]=>
+  string(18) "whitespace2_value1"
+  ["\0"]=>
+  string(16) "null_char_value1"
+  ["b"]=>
+  string(11) "char_value2"
+  ["string2"]=>
+  string(13) "string_value2"
+  [456]=>
+  string(14) "numeric_value2"
+  ["^&*"]=>
+  string(19) "special_char_value2"
+  ["%r\x09%r"]=>
+  string(18) "whitespace1_value2"
+  ["
+"]=>
+  string(18) "whitespace2_value2"
+  ["%r\x00%r"]=>
+  string(16) "null_char_value2"
+  ["a%r\x00%rb"]=>
+  string(12) "binary_value"
+  ["simple"]=>
+  string(14) "simple_heredoc"
+  ["multiline heredoc with 123 and
+speci@! ch@r$..checking
+with%r\x09%ralso"]=>
+  string(17) "multiline_heredoc"
+}
+Done

@@ -1,0 +1,83 @@
+{{!
+
+  Copyright 2016 Facebook, Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+}}{{!
+
+Included from CythonServices.pyx, this file defines the core adapter between
+the C++ service and the Python handler. The C++ classes defined in
+ServicesWrapper.h and ServicesWrapper.cpp call into this file using a generated
+header. It calls into the call_cy_.... functions, passing it a promise and
+the arguments. That function wraps the promise and arguments in Python types
+appropriately, then passes them into a coroutine defined in this same file.
+
+That coroutine then looks up the handler coroutine, which does the appropriate
+work and then returns a Python value. The coroutine accesses the C++ promise
+from the Python wrapper of that promise that was passed into the coroutine and
+sets the converted value on that promise.
+
+}}
+
+{{#program:services}}
+{{#service:functions}}
+cdef public void call_cy_{{service:name}}_{{function:name}}(
+    object self,
+    cFollyPromise[{{#function:returnType}}{{>CythonFieldType}}{{/function:returnType}}]{{!
+    }} cPromise{{#function:args}},
+    {{#field:type}}{{>CythonFieldType}}{{/field:type}} {{field:name}}{{/function:args}}
+) with gil:
+    promise = Promise_{{#function:returnType}}{{type:flat_name}}{{/function:returnType}}.create(move(cPromise))
+    {{#function:args}}
+    arg_{{field:name}} = {{#field:type}}{{>CythonCppToPython}}{{/field:type}}{{/function:args}}
+    asyncio.run_coroutine_threadsafe(
+        {{service:name}}_{{function:name}}_coro(
+            self,
+            promise{{#function:args}},
+            arg_{{field:name}}{{/function:args}}),
+        loop=self.loop)
+
+async def {{service:name}}_{{function:name}}_coro(
+    object self,
+    Promise_{{#function:returnType}}{{type:flat_name}}{{/function:returnType}}{{!
+    }} promise{{#function:args}},
+    {{field:name}}{{/function:args}}
+):
+    try:
+      result = await self.{{function:name}}({{#function:args}}
+          {{field:name}}{{^last?}},{{/last?}}{{/function:args}})
+      {{#function:returnType}}
+      {{#type:container?}}
+      result = {{type:flat_name}}(result)
+      {{/type:container?}}
+      {{/function:returnType}}
+    {{#function:exceptions}}
+    {{#field:type}}
+    except {{type:name}} as ex:
+        promise.cPromise.setException(deref((<{{type:name}}> ex).c_{{type:name}}.get()))
+    {{/field:type}}
+    {{/function:exceptions}}
+    except Exception as ex:
+        print(
+            "Unexpected error in service handler {{service:name.}}{{function:name}}:",
+            file=sys.stderr)
+        traceback.print_exc()
+        promise.cPromise.setException(cTApplicationException(
+            repr(ex).encode('UTF-8')
+        ))
+    else:
+        promise.cPromise.setValue({{#function:returnType}}{{> CythonReturnValue}}{{/function:returnType}})
+
+{{/service:functions}}
+{{/program:services}}

@@ -1,0 +1,7 @@
+*** Testing ob_get_level() : error conditions ***
+
+-- Testing ob_get_level() function with one argument --
+
+Warning: %s
+NULL
+Done

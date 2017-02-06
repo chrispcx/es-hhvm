@@ -1,0 +1,7 @@
+*** Testing get_declared_classes() : error conditions ***
+
+-- Testing get_declared_classes() function with one argument --
+
+Warning: %s
+NULL
+Done

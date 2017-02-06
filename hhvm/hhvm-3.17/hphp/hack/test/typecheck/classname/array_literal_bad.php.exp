@@ -1,0 +1,8 @@
+File "array_literal_bad.php", line 10, characters 3-15:
+  array<^(string), ^(classname<D as D> | classname<C2 as C2> | classname<C1 as C1>)>
+File "array_literal_bad.php", line 11, characters 10-13:
+Invalid return type (Typing[4110])
+File "array_literal_bad.php", line 8, characters 52-52:
+This is an object of type I
+File "array_literal_bad.php", line 9, characters 46-46:
+It is incompatible with an object of type D

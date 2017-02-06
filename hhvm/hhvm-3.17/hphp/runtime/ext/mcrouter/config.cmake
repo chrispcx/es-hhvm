@@ -1,0 +1,9 @@
+HHVM_DEFINE_EXTENSION("mcrouter"
+  SOURCES
+    ext_mcrouter.cpp
+  SYSTEMLIB
+    ext_mcrouter.php
+  DEPENDS
+    libMCRouter
+    varENABLE_MCROUTER
+)

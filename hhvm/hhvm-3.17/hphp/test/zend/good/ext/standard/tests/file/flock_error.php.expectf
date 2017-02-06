@@ -1,0 +1,54 @@
+*** Testing error conditions ***
+
+--- Iteration 0 ---
+Warning: %s
+bool(false)
+
+--- Iteration 1 ---
+Warning: %s
+bool(false)
+
+--- Iteration 2 ---
+Warning: %s
+bool(false)
+
+--- Iteration 3 ---
+Warning: %s
+bool(false)
+
+--- Iteration 4 ---
+Warning: %s
+NULL
+
+--- Iteration 5 ---
+Warning: %s
+NULL
+
+--- Iteration 6 ---
+Warning: %s
+NULL
+
+--- Iteration 7 ---
+Warning: %s
+NULL
+
+--- Iteration 8 ---
+Warning: %s
+NULL
+
+Warning: %s
+bool(false)
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+*** Done ***

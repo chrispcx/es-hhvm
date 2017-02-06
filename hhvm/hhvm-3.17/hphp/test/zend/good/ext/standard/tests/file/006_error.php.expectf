@@ -1,0 +1,39 @@
+*** Testing error conditions for fileperms(), chmod() ***
+
+Warning: %s
+bool(false)
+100%d44
+
+Warning: %s
+bool(false)
+40755
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+*** Done ***

@@ -1,0 +1,13 @@
+int(0)
+
+Warning: %s
+bool(false)
+
+Notice: %s
+
+Warning: %s
+bool(false)
+
+Notice: %s
+NULL
+Done

@@ -1,0 +1,24 @@
+<?hh
+
+async function block() {
+  await RescheduleWaitHandle::create(RescheduleWaitHandle::QUEUE_DEFAULT, 0);
+}
+
+async function bar($id) {
+  await block();
+  return $id * $id;
+}
+
+async function foo() {
+  await block();
+  return await \HH\Asio\m(
+    array_map(
+      async $id ==> {
+        return await bar($id);
+      },
+      array(1,2,3,4),
+    )
+  );
+}
+
+var_dump(HH\Asio\join(foo()));

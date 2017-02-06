@@ -1,0 +1,13 @@
+*** Testing is_dir() with Invalid arguments: expected bool(false) ***
+bool(false)
+bool(false)
+bool(false)
+bool(false)
+bool(false)
+
+Warning: %s
+NULL
+bool(false)
+bool(false)
+
+*** Done ***

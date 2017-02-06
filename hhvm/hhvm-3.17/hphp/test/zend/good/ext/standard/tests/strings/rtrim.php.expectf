@@ -1,0 +1,27 @@
+*** Output for Error Conditions ***
+
+Warning: %s
+
+Warning: %s
+
+ *** Output for Normal Behaviour ***
+string(10) "rtrim test"
+string(13) "rtrim test   "
+string(18) "rtrim test        "
+string(18) "rtrim test        "
+string(10) "rtrim test"
+string(11) "rtrim test "
+string(10) "rtrim test"
+string(10) "rtrim test"
+string(10) "rtrim test"
+
+*** Checking with OBJECTS ***
+string(4) "Obje"
+
+*** String with embedded NULL ***
+string(22) "234%r\x00%r05678%r\x00%r00efgh\xijkl"
+
+ *** Using heredoc string ***
+string(18) "us
+ing heredoc str"
+Done

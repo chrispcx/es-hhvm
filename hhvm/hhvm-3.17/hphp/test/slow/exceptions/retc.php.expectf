@@ -1,0 +1,11 @@
+
+Warning: Destructor raised a fatal error: Class already declared: Obj
+ in %s/test/slow/exceptions/retc.php on line 14
+
+Warning: Destructor raised a fatal error: Class already declared: Obj
+ in %s/test/slow/exceptions/retc.php on line 22
+
+Warning: Destructor raised a fatal error: Class already declared: Obj
+ in %s/test/slow/exceptions/retc.php on line 22
+
+Fatal error: Class already declared: Obj in %s/test/slow/exceptions/retc.php on line 6

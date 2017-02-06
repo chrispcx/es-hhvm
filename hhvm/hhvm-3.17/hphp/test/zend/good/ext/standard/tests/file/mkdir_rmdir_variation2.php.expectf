@@ -1,0 +1,25 @@
+*** Testing mkdir() and rmdir() by giving stream context as fourth argument ***
+bool(true)
+bool(true)
+
+*** Testing rmdir() on a non-empty directory ***
+bool(true)
+
+Warning: %s
+bool(false)
+
+*** Testing mkdir() and rmdir() for binary safe functionality ***
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+*** Testing mkdir() with miscelleneous input ***
+bool(true)
+
+Warning: %s
+bool(false)
+bool(true)
+Done

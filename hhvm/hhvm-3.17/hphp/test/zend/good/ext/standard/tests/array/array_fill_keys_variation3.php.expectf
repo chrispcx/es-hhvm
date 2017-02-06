@@ -1,0 +1,20 @@
+*** Testing array_fill_keys() : parameter variations ***
+
+-- Testing array_fill_keys() function with both wrong arguments --
+
+Warning: %s
+NULL
+
+-- Testing array_fill_keys() function with unusual second arguments --
+array(2) {
+  ["one"]=>
+  resource(%d) of type (stream)
+  ["two"]=>
+  resource(%d) of type (stream)
+}
+
+-- Testing array_fill_keys() function with mixed array --
+
+Warning: %s
+NULL
+Done

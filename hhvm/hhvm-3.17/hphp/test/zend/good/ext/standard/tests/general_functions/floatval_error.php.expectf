@@ -1,0 +1,18 @@
+*** Testing floatval() and doubleval() : error conditions ***
+
+-- Testing floatval() and doubleval() function with no arguments --
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+-- Testing floatval() and doubleval() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+===DONE===

@@ -1,0 +1,56 @@
+{{!
+
+  Copyright 2016 Facebook, Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+}}{{!
+
+Included on Cython structs in properties for retrieving child values from
+that struct. Most types can be returned directly and converted to python objects
+by Cython. Complex objects need to be wrapped or decoded appropriately. Structs
+are special because we try to memoize their wrappers on the parent handler
+if they have been previously retrieved.
+
+}}{{#type:bool?}}{{!
+  }}return <pbool> self.c_{{struct:name}}.get().{{field:name}}{{!
+}}{{/type:bool?}}{{!
+}}{{#type:byte?}}{{!
+  }}return self.c_{{struct:name}}.get().{{field:name}}{{!
+}}{{/type:byte?}}{{!
+}}{{#type:i16?}}{{!
+  }}return self.c_{{struct:name}}.get().{{field:name}}{{!
+}}{{/type:i16?}}{{!
+}}{{#type:i32?}}{{!
+  }}return self.c_{{struct:name}}.get().{{field:name}}{{!
+}}{{/type:i32?}}{{!
+}}{{#type:i64?}}{{!
+  }}return self.c_{{struct:name}}.get().{{field:name}}{{!
+}}{{/type:i64?}}{{!
+}}{{#type:double?}}{{!
+  }}return self.c_{{struct:name}}.get().{{field:name}}{{!
+}}{{/type:double?}}{{!
+}}{{#type:string?}}{{!
+  }}return self.c_{{struct:name}}.get().{{field:name}}.decode(){{!
+}}{{/type:string?}}{{!
+}}{{#type:struct?}}{{!
+}}cdef shared_ptr[c{{#type:struct}}{{struct:name}}{{/type:struct}}] item
+if self.__{{field:name}} is None:
+    item = make_shared[c{{#type:struct}}{{struct:name}}{{/type:struct}}](deref(self.c_{{struct:name}}).{{field:name}})
+    self.__{{field:name}} = {{#type:struct}}{{struct:name}}{{/type:struct}}.create(item)
+return self.__{{field:name}}
+{{/type:struct?}}{{!
+}}{{#type:enum}}
+cdef int value = <int> deref(self.c_{{struct:name}}).{{field:name}}
+return {{enum:name}}(value)
+{{/type:enum}}

@@ -1,0 +1,9 @@
+Testing SQLite3 query without parameters
+
+Warning: %s
+Testing SQLite3 query with one array parameter
+
+Warning: %s
+Testing SQLite3 qeury with empty string parameter
+bool(false)
+Done

@@ -1,0 +1,20 @@
+*** Testing gzopen() : variation ***
+mode=r+
+
+Warning: %s
+gzopen=bool(false)
+
+mode=rf
+gzopen=resource(%d) of type (stream)
+
+mode=w+
+
+Warning: %s
+gzopen=bool(false)
+
+mode=e
+
+Warning: %s
+gzopen=bool(false)
+
+===DONE===

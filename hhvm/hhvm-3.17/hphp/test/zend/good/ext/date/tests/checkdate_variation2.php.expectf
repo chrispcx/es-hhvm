@@ -1,0 +1,100 @@
+*** Testing checkdate() : usage variation -  unexpected values to second argument $day***
+
+-- float 10.5 --
+bool(true)
+
+-- float -10.5 --
+bool(false)
+
+-- float .5 --
+bool(false)
+
+-- empty array --
+
+Warning: %s
+bool(false)
+
+-- int indexed array --
+
+Warning: %s
+bool(false)
+
+-- associative array --
+
+Warning: %s
+bool(false)
+
+-- nested arrays --
+
+Warning: %s
+bool(false)
+
+-- uppercase NULL --
+bool(false)
+
+-- lowercase null --
+bool(false)
+
+-- lowercase true --
+bool(true)
+
+-- lowercase false --
+bool(false)
+
+-- uppercase TRUE --
+bool(true)
+
+-- uppercase FALSE --
+bool(false)
+
+-- empty string DQ --
+
+Warning: %s
+bool(false)
+
+-- empty string SQ --
+
+Warning: %s
+bool(false)
+
+-- string DQ --
+
+Warning: %s
+bool(false)
+
+-- string SQ --
+
+Warning: %s
+bool(false)
+
+-- mixed case string --
+
+Warning: %s
+bool(false)
+
+-- heredoc --
+
+Warning: %s
+bool(false)
+
+-- instance of classWithToString --
+
+Warning: %s
+bool(false)
+
+-- instance of classWithoutToString --
+
+Warning: %s
+bool(false)
+
+-- undefined var --
+bool(false)
+
+-- unset var --
+bool(false)
+
+-- resource --
+
+Warning: %s
+bool(false)
+===DONE===

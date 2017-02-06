@@ -1,0 +1,92 @@
+*** Testing chunk_split() : with unexpected values for 'chunklen' argument ***
+-- Iteration 1 --
+string(28) "This is ch*uklen vari*ation*"
+-- Iteration 2 --
+
+Warning: %s
+bool(false)
+-- Iteration 3 --
+
+Warning: %s
+bool(false)
+-- Iteration 4 --
+
+Warning: %s
+bool(false)
+-- Iteration 5 --
+
+Warning: %s
+bool(false)
+-- Iteration 6 --
+
+Warning: %s
+NULL
+-- Iteration 7 --
+
+Warning: %s
+NULL
+-- Iteration 8 --
+
+Warning: %s
+NULL
+-- Iteration 9 --
+
+Warning: %s
+NULL
+-- Iteration 10 --
+
+Warning: %s
+NULL
+-- Iteration 11 --
+
+Warning: %s
+bool(false)
+-- Iteration 12 --
+
+Warning: %s
+bool(false)
+-- Iteration 13 --
+string(50) "T*h*i*s* *i*s* *c*h*u*k*l*e*n* *v*a*r*i*a*t*i*o*n*"
+-- Iteration 14 --
+
+Warning: %s
+bool(false)
+-- Iteration 15 --
+string(50) "T*h*i*s* *i*s* *c*h*u*k*l*e*n* *v*a*r*i*a*t*i*o*n*"
+-- Iteration 16 --
+
+Warning: %s
+bool(false)
+-- Iteration 17 --
+
+Warning: %s
+NULL
+-- Iteration 18 --
+
+Warning: %s
+NULL
+-- Iteration 19 --
+
+Warning: %s
+NULL
+-- Iteration 20 --
+
+Warning: %s
+NULL
+-- Iteration 21 --
+
+Warning: %s
+NULL
+-- Iteration 22 --
+
+Warning: %s
+bool(false)
+-- Iteration 23 --
+
+Warning: %s
+bool(false)
+-- Iteration 24 --
+
+Warning: %s
+NULL
+===DONE===

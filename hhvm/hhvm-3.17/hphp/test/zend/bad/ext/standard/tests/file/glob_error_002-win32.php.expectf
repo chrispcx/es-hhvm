@@ -1,0 +1,5 @@
+*** Testing glob() : error condition - pattern too long. ***
+
+Warning: %s
+bool(false)
+Done

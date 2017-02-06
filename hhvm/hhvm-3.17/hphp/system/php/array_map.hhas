@@ -1,0 +1,126 @@
+.function array_map($func = no_args, $arr = one_arg, $res = one_array, ...$extra) {
+          .numiters 2;
+
+# If we get here, a value was supplied for $res (or we did not get an
+# an array as $arr), so we bail out to the c++ implementation
+
+call_cpp_impl_with_extra:
+          FPushFuncD   4   "__SystemLib\\array_map"
+          FPassL 0 $func
+          FPassL 1 $arr
+          FPassL 2 $res
+          FPassL 3 $extra
+          FCallUnpack 4
+          UnboxR
+          RetC
+
+call_cpp_impl:
+          FPushFuncD   2   "__SystemLib\\array_map"
+          FPassL 0 $func
+          FPassL 1 $arr
+          FCall 2
+          UnboxR
+          RetC
+
+no_args:  String "array_map() expects at least 2 parameters, 0 given"
+          Jmp warning
+
+one_arg:  String "array_map() expects at least 2 parameters, 1 given"
+          Jmp warning
+
+bad_func: String "array_map() expects parameter 1 to be a valid callback"
+          Jmp warning
+warning:  Cns "E_USER_WARNING"
+          FCallBuiltin 2 2 "trigger_error"
+          PopR
+          Null
+          RetC
+
+convert_to_array:
+# with a null func, we have to convert the input to an array
+          CGetL $arr
+          FPushObjMethodD 0 "toArray" NullThrows
+          FCall 0
+          UnboxR
+          RetC
+
+not_array:
+          CGetL $arr
+          InstanceOfD "HH\\KeyedTraversable"
+          JmpZ call_cpp_impl
+          IssetL $func
+          JmpZ convert_to_array
+# make an apparently pointless copy of the loop
+# we could share the one for arrays, but then we
+# would max out the translation chain much quicker,
+# hurting performance.
+
+          CGetL $func
+          DecodeCufIter 0 bad_func
+.try_fault kill_iter_0_kt {
+            NewLikeArrayL $arr 0
+            SetL $res
+            PopC
+
+            CGetL $arr
+            WIterInitK 1 endloop_kt $v $k
+  .try_fault kill_iter_1_kt 1 {
+    loop_x_kt:FPushCufIter 1 0
+              FPassL 0 $v
+              FCall 1
+              BaseL $res Define
+              SetWithRefRML $k
+              WIterNextK 1 loop_x_kt $v $k
+   }
+}
+endloop_kt:
+          CIterFree 0
+          CGetL $res
+          RetC
+
+# if we get here, there was only one array,
+# so we use the fast, php version
+one_array:
+          IsTypeL $arr Arr
+          JmpZ not_array
+          IssetL $func
+          JmpZ ident
+          CGetL $func
+          DecodeCufIter 0 bad_func
+.try_fault kill_iter_0 {
+            NewLikeArrayL $arr 0
+            SetL $res
+            PopC
+
+            CGetL $arr
+            WIterInitK 1 endloop $v $k
+
+  .try_fault kill_iter_1 1 {
+    loop_x:   FPushCufIter 1 0
+              FPassL 0 $v
+              FCall 1
+              BaseL $res Define
+              SetWithRefRML $k
+              WIterNextK 1 loop_x $v $k
+  }
+}
+endloop:  CIterFree 0
+          CGetL $res
+          RetC
+
+ident:    CGetL $arr
+          RetC
+
+kill_iter_0:
+          CIterFree 0
+          Unwind
+kill_iter_1:
+          IterFree 1
+          Unwind
+kill_iter_0_kt:
+           CIterFree 0
+           Unwind
+kill_iter_1_kt:
+           IterFree 1
+           Unwind
+}

@@ -1,0 +1,12 @@
+*** Testing utf8_encode() : error conditions ***
+
+-- Testing utf8_encode() function with Zero arguments --
+
+Warning: %s
+NULL
+
+-- Testing utf8_encode() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+Done

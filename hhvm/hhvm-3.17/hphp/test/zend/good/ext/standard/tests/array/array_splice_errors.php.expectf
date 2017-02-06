@@ -1,0 +1,17 @@
+*** Testing error conditions of array_splice() ***
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+Done

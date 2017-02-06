@@ -1,0 +1,12 @@
+*** Testing timezone_name_from_abbr() : error conditions ***
+
+-- Testing timezone_name_from_abbr() function with Zero arguments --
+
+Warning: %s
+bool(false)
+
+-- Testing timezone_name_from_abbr() function with more than expected no. of arguments --
+
+Warning: %s
+bool(false)
+===DONE===

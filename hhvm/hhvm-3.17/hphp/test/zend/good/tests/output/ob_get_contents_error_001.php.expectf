@@ -1,0 +1,8 @@
+*** Testing ob_get_contents() : error cases ***
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+Done

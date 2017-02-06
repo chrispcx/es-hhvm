@@ -1,0 +1,29 @@
+string(0) ""
+string(0) ""
+string(1) "0"
+string(1) "0"
+string(13) "%r\x09%rtesting trim"
+string(17) "  %r\x09%rtesting trim  "
+string(15) "%r\x09%rtesting trim  "
+
+*** Testing error conditions ***
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+*** Testing with OBJECTS ***
+string(4) "bjec"
+
+*** Testing with String with embedded NULL ***
+string(22) "234%r\x00%r05678%r\x00%r00efgh\xijkl"
+
+*** Testing with heredoc string ***
+string(12) " heredoc str"
+
+Done

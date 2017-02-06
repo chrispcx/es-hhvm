@@ -1,0 +1,12 @@
+*** Testing exif_tagname() : error conditions ***
+
+-- Testing exif_tagname() function with no arguments --
+
+Warning: %s
+NULL
+
+-- Testing exif_tagname() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+===Done===

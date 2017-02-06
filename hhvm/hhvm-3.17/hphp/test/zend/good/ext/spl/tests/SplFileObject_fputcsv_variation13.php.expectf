@@ -1,0 +1,5 @@
+*** Testing fputcsv() : with default enclosure & delimiter of two chars ***
+
+Warning: %s
+bool(false)
+Done

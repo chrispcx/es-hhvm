@@ -1,0 +1,176 @@
+*** Testing parse_str() : basic functionality ***
+
+Test string with array values
+NULL
+string(3) "abc"
+array(3) {
+  [0]=>
+  string(3) "123"
+  [1]=>
+  string(5) "false"
+  [2]=>
+  string(4) "last"
+}
+array(1) {
+  [0]=>
+  string(3) "str"
+}
+array(1) {
+  [0]=>
+  string(3) "3.5"
+}
+
+Test string with array values and results array
+NULL
+array(4) {
+  ["first"]=>
+  string(3) "abc"
+  ["a"]=>
+  array(3) {
+    [0]=>
+    string(3) "123"
+    [1]=>
+    string(5) "false"
+    [2]=>
+    string(4) "last"
+  }
+  ["b"]=>
+  array(1) {
+    [0]=>
+    string(3) "str"
+  }
+  ["c"]=>
+  array(1) {
+    [0]=>
+    string(3) "3.5"
+  }
+}
+
+Test string containing numerical array keys
+NULL
+array(1) {
+  ["arr"]=>
+  array(2) {
+    [1]=>
+    string(3) "sid"
+    [4]=>
+    string(4) "bill"
+  }
+}
+
+Test string containing associative keys
+NULL
+array(1) {
+  ["arr"]=>
+  array(2) {
+    ["first"]=>
+    string(3) "sid"
+    ["forth"]=>
+    string(4) "bill"
+  }
+}
+
+Test string with array values with same name as existing variable
+NULL
+array(3) {
+  [0]=>
+  string(3) "123"
+  [1]=>
+  string(5) "false"
+  [2]=>
+  string(4) "last"
+}
+
+Test string with non-array value with same name as existing array variable
+string(3) "999"
+
+Test string with encoded data
+string(17) "<==  foo bar  ==>"
+string(17) "###Hello World###"
+
+Test string with single quotes characters
+NULL
+string(4) "Bill"
+string(8) "O'Reilly"
+
+Test string with backslash characters
+NULL
+string(6) "10\2=5"
+
+Test string with double quotes data
+NULL
+string(30) "A string with "quoted" strings"
+
+Test string with nulls
+NULL
+string(34) "A string with containing %r\x00\x00\x00%r nulls"
+
+Test string with 2-dim array with numeric keys
+NULL
+array(1) {
+  ["arr"]=>
+  array(1) {
+    [3]=>
+    array(2) {
+      [4]=>
+      string(3) "sid"
+      [6]=>
+      string(4) "fred"
+    }
+  }
+}
+
+Test string with 2-dim array with null keys
+NULL
+array(1) {
+  ["arr"]=>
+  array(2) {
+    [0]=>
+    array(1) {
+      [0]=>
+      string(3) "sid"
+    }
+    [1]=>
+    array(1) {
+      [0]=>
+      string(4) "fred"
+    }
+  }
+}
+
+Test string with 2-dim array with non-numeric keys
+NULL
+array(1) {
+  ["arr"]=>
+  array(2) {
+    ["one"]=>
+    array(1) {
+      ["four"]=>
+      string(3) "sid"
+    }
+    ["three"]=>
+    array(1) {
+      ["six"]=>
+      string(4) "fred"
+    }
+  }
+}
+
+Test string with 3-dim array with numeric keys
+NULL
+array(1) {
+  ["arr"]=>
+  array(1) {
+    [1]=>
+    array(1) {
+      [2]=>
+      array(2) {
+        [3]=>
+        string(3) "sid"
+        [6]=>
+        string(4) "fred"
+      }
+    }
+  }
+}
+===DONE===

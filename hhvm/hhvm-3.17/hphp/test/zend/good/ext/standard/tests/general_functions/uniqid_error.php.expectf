@@ -1,0 +1,15 @@
+*** Testing uniqid() : error conditions ***
+
+-- Testing uniqid() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+
+-- Testing uniqid() function with invalid values for $prefix --
+
+Warning: %s
+
+Warning: %s
+
+Warning: %s
+===DONE===

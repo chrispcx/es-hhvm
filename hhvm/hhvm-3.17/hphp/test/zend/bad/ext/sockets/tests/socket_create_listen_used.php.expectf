@@ -1,0 +1,6 @@
+resource(%i) of type (Socket)
+
+Warning: %s
+bool(false)
+
+Warning: %s

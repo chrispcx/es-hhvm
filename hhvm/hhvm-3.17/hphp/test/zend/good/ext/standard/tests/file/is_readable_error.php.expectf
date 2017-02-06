@@ -1,0 +1,11 @@
+*** Testing is_readable(): error conditions ***
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+*** Testing is_readable() on non-existent file ***
+bool(false)
+Done

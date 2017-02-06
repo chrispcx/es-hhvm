@@ -1,0 +1,6 @@
+string(19) "openssl_open() test"
+
+Warning: %s
+NULL
+string(19) "openssl_open() test"
+NULL

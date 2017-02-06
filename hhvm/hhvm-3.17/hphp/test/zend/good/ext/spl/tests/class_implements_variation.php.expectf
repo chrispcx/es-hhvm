@@ -1,0 +1,16 @@
+*** Testing class_implements() : variation ***
+--- testing no interfaces ---
+array(0) {
+}
+array(0) {
+}
+
+--- testing autoload ---
+attempting to autoload non_existent
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+===DONE===

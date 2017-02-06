@@ -1,0 +1,25 @@
+*** Testing error conditions ***
+
+-- Testing with  Non-existing file --
+
+Warning: %s
+
+-- Testing No.of arguments less than expected --
+
+Warning: %s
+
+Warning: %s
+
+Warning: %s
+
+-- Testing No.of arguments greater than expected --
+
+Warning: %s
+
+Warning: %s
+
+-- Testing for invalid negative maxlen values --
+Warning: %s
+bool(false)
+
+*** Done ***

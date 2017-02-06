@@ -1,0 +1,7 @@
+*** Testing mb_strrichr() : error conditions ***
+
+-- Testing mb_strrichr() with unknown encoding --
+
+Warning: %s
+bool(false)
+===DONE===

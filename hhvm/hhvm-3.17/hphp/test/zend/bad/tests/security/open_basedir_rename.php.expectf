@@ -1,0 +1,22 @@
+*** Testing open_basedir configuration [rename] ***
+bool(true)
+bool(true)
+bool(true)
+bool(true)
+bool(true)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+*** Finished testing open_basedir configuration [rename] ***

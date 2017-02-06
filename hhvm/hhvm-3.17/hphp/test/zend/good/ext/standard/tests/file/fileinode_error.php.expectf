@@ -1,0 +1,17 @@
+*** Testing error conditions of fileinode() ***
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+*** Done ***

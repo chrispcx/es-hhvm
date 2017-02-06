@@ -1,0 +1,11 @@
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+string(13) "foobar foobar"
+
+Warning: %s
+bool(false)
+===DONE===

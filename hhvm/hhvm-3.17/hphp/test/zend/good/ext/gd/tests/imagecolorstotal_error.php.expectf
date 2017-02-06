@@ -1,0 +1,17 @@
+*** Testing imagecolorstotal() : error conditions ***
+
+-- Testing imagecolorstotal() function with Zero arguments --
+
+Warning: %s
+NULL
+
+-- Testing imagecolorstotal() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+
+-- Testing imagecolorstotal() function with a invalid resource
+
+Warning: %s
+bool(false)
+===DONE===

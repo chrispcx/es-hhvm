@@ -1,0 +1,6 @@
+object(PDOStatement)#%d (1) {
+  [%u|b%"queryString"]=>
+  NULL
+}
+
+Fatal error: %s

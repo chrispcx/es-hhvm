@@ -1,0 +1,10 @@
+*** Testing dir() : remove execute permission from the parent dir ***
+-- After restricting 1st level parent directory --
+
+Warning: %s
+bool(false)
+-- After restricting parent directory --
+
+Warning: %s
+bool(false)
+Done

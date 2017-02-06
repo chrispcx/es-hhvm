@@ -1,0 +1,109 @@
+*** Testing timezone_name_from_abbr() : usage variation -  unexpected values to second argument $gmtOffset***
+
+-- int 0 --
+string(3) "UTC"
+
+-- int 12345 --
+string(3) "UTC"
+
+-- int -12345 --
+string(3) "UTC"
+
+-- float 10.5 --
+string(3) "UTC"
+
+-- float -10.5 --
+string(3) "UTC"
+
+-- float .5 --
+string(3) "UTC"
+
+-- empty array --
+
+Warning: %s
+bool(false)
+
+-- int indexed array --
+
+Warning: %s
+bool(false)
+
+-- associative array --
+
+Warning: %s
+bool(false)
+
+-- nested arrays --
+
+Warning: %s
+bool(false)
+
+-- uppercase NULL --
+string(3) "UTC"
+
+-- lowercase null --
+string(3) "UTC"
+
+-- lowercase true --
+string(3) "UTC"
+
+-- lowercase false --
+string(3) "UTC"
+
+-- uppercase TRUE --
+string(3) "UTC"
+
+-- uppercase FALSE --
+string(3) "UTC"
+
+-- empty string DQ --
+
+Warning: %s
+bool(false)
+
+-- empty string SQ --
+
+Warning: %s
+bool(false)
+
+-- string DQ --
+
+Warning: %s
+bool(false)
+
+-- string SQ --
+
+Warning: %s
+bool(false)
+
+-- mixed case string --
+
+Warning: %s
+bool(false)
+
+-- heredoc --
+
+Warning: %s
+bool(false)
+
+-- instance of classWithToString --
+
+Warning: %s
+bool(false)
+
+-- instance of classWithoutToString --
+
+Warning: %s
+bool(false)
+
+-- undefined var --
+string(3) "UTC"
+
+-- unset var --
+string(3) "UTC"
+
+-- resource --
+
+Warning: %s
+bool(false)
+===DONE===

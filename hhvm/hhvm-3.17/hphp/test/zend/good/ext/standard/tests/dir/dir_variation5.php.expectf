@@ -1,0 +1,5 @@
+*** Testing dir() : open a file instead of a directory ***
+
+Warning: %s
+bool(false)
+Done

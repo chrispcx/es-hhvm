@@ -1,0 +1,21 @@
+LibXMLError
+object(LibXMLError)#%d (0) {
+}
+string(23) "O:11:"LibXMLError":0:{}"
+object(LibXMLError)#%d (0) {
+}
+array(0) {
+}
+================
+A_LibXMLError
+object(A_LibXMLError)#%d (1) {
+  ["___x"]=>
+  NULL
+}
+string(38) "O:13:"A_LibXMLError":1:{s:4:"___x";N;}"
+object(A_LibXMLError)#%d (1) {
+  ["___x"]=>
+  NULL
+}
+array(0) {
+}

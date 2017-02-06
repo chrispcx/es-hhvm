@@ -1,0 +1,12 @@
+*** Testing ctype_upper() : error conditions ***
+
+-- Testing ctype_upper() function with Zero arguments --
+
+Warning: %s
+NULL
+
+-- Testing ctype_upper() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+===DONE===

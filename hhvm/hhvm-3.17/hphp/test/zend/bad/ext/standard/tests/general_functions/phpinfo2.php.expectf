@@ -1,0 +1,12 @@
+<!DOCTYPE %s>
+%a</html>bool(true)
+--
+
+Warning: %s
+NULL
+--
+<!DOCTYPE %s>
+%a</html>bool(true)
+--
+<!DOCTYPE %s>
+%a</html>bool(true)

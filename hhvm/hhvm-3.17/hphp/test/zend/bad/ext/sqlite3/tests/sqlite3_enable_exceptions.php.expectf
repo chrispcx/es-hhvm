@@ -1,0 +1,11 @@
+bool(false)
+no such table: non_existent_table
+bool(true)
+
+Warning: %s
+
+Warning: %s
+NULL
+Closing database
+bool(true)
+Done

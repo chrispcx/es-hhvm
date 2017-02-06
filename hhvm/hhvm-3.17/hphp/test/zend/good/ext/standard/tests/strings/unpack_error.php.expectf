@@ -1,0 +1,17 @@
+*** Testing unpack() : error conditions ***
+
+-- Testing unpack() function with no arguments --
+
+Warning: %s
+NULL
+
+-- Testing unpack() function with more than expected no. of arguments --
+
+Warning: %s
+NULL
+
+-- Testing unpack() function with invalid format character --
+
+Warning: %s
+bool(false)
+===DONE===

@@ -1,0 +1,13 @@
+HHVM_DEFINE_EXTENSION("thrift"
+  SOURCES
+    binary.cpp
+    compact.cpp
+    ext_thrift.cpp
+    spec-holder.cpp
+  HEADERS
+    ext_thrift.h
+    spec-holder.h
+    transport.h
+  SYSTEMLIB
+    ext_thrift.php
+)

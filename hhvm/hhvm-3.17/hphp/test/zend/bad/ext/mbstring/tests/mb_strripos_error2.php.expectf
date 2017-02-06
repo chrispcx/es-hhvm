@@ -1,0 +1,5 @@
+*** Testing mb_strripos() : error conditions ***
+
+Warning: %s
+bool(false)
+Done

@@ -1,0 +1,23 @@
+*** Testing error conditions ***
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+
+Warning: %s
+bool(false)
+
+Warning: %s
+bool(false)
+float(%d)
+float(%d)
+
+-- Done --

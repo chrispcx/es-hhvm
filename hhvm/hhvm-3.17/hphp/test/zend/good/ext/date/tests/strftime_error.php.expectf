@@ -1,0 +1,7 @@
+*** Testing strftime() : error conditions ***
+
+-- Testing strftime() function with more than expected no. of arguments --
+
+Warning: %s
+bool(false)
+===DONE===

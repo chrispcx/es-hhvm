@@ -1,0 +1,22 @@
+string(5) "class"
+string(1) "C"
+string(%d) "syntax error, unexpected '{' in %s/test/slow/autoload/autoload-fail-c.inc on line %d"
+string(5) "class"
+string(1) "D"
+string(9) "Surprise!"
+array(1) {
+  [0]=>
+  array(4) {
+    ["file"]=>
+    string(%d) "%s/test/slow/autoload/autoload-fail.php"
+    ["line"]=>
+    int(28)
+    ["function"]=>
+    string(7) "include"
+    ["args"]=>
+    array(1) {
+      [0]=>
+      string(%d) "%s/test/slow/autoload/autoload-fail-d.inc"
+    }
+  }
+}

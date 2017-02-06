@@ -1,0 +1,14 @@
+*** Testing sub-arrays with array_search() ***
+int(4)
+string(5) "three"
+int(5)
+
+*** Testing objects with array_search() ***
+
+Warning: %s
+NULL
+
+Warning: %s
+NULL
+int(1)
+Done

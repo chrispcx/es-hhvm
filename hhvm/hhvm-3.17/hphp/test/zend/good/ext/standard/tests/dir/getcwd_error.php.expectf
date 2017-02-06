@@ -1,0 +1,7 @@
+*** Testing getcwd() : error conditions ***
+
+-- Testing getcwd() function with one argument --
+
+Warning: %s
+NULL
+===DONE===
